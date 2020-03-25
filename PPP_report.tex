@@ -41,7 +41,7 @@
 cross-section geometries, short beams, orthotropic materials and non-homogenous sections. The figure \ref{fig:Refined 1D element} shows the axial approximation using 1D shape functions and cross-sectional approximation using polynomials
 
 \newpage
-\section*{Theory behind Refined 1D Beam Model}
+\section*{Theory behind the Refined 1D Beam Model}
 \subsection*{1D Refined models with Lagrange Expansion class}
 \indent\indent\indent\indent In a displacement based approach different class of functions are used to describe the displacment field of cross section like harmonics,polynomials,exponentials etc., In this project Lagrange polynomial expansions is used to approximate the displacement field of the cross section. The Lagrange Expansion(LE) 1D models have the folowing main characters 
 \\
@@ -49,7 +49,7 @@ cross-section geometries, short beams, orthotropic materials and non-homogenous 
 2. The unknown variables of the problems are only displacements of the nodes. No rotation or higher order variables are used to describe the displacement field.\\
 3. Locally refined models can be easily built since Lagrange polynomial sets can be arbitrarily
 spread above the cross-section.\\
-In this method the expansion functions(F$_\tau$) coincide with the Lagrange polynomials. Since Lagrange polynomials are usually given in normalized or natural coordinates Isoparametric formulation can be exploited. The simplest Lagrange polynomial is the four-point(L4) set which is shown in the figure \ref{fig:L4 element} and the polynomials are given by the equation(2.1) 
+\indent In this method the expansion functions(F$_\tau$) coincide with the Lagrange polynomials. Since Lagrange polynomials are usually given in normalized or natural coordinates Isoparametric formulation can be exploited. The simplest Lagrange polynomial is the four-point(L4) set which is shown in the figure \ref{fig:L4 element} and the polynomials are given in the equation(1) 
 \begin{figure}[htbp]
 \begin{center}
 \includegraphics[width=0.8\textwidth]{{2.png}}
@@ -58,8 +58,11 @@ In this method the expansion functions(F$_\tau$) coincide with the Lagrange poly
 \end{center}
 \end{figure}
 
-$$F_\tau = \frac{1}{4}(1+\alpha\alpha_\tau)(1+\beta\beta_\tau), \tau = 1,2,3,4 \hspace{1in}(2.1)$$ 
-where $\alpha$ and $\beta$ are the normalized coordinates and $\alpha_\tau$ and $\beta_\tau$ are the coordinates of the four nodes which is given in the table \ref{tab:table1}.In the same way triangular elements(L3) and  higher order elements like (L9) or L(16) can be created using their respective polynomials.
+\begin{equation}
+F_\tau = \frac{1}{4}(1+\alpha\alpha_\tau)(1+\beta\beta_\tau), \tau = 1,2,3,4 
+\label{shapefunc} 
+\end{equation}
+where $\alpha$ and $\beta$ are the normalized coordinates and $\alpha_\tau$ and $\beta_\tau$ are the coordinates of the four nodes which is given in the table \ref{tab:table1}. In the same way triangular elements(L3) and  higher order elements like (L9) or L(16) can be created using their respective polynomials.
 \begin{table}[h!]
   \begin{center}
      \begin{tabular}{c|r|r} 
@@ -83,17 +86,193 @@ where $\alpha$ and $\beta$ are the normalized coordinates and $\alpha_\tau$ and 
 The 2D isoparametic formulation is used to implement the LE models. The same 2D formulation is employed for the 2D FEs(Plate models)
 
 \subsection*{Stiffness matrix}
-\indent\indent\indent\indent In CUF the FE matrices(Stiffness and Mass matrix) are formulated in terms of Fundamental Nucleus(FN). The compact form of stiffness matrix is given by $$\delta L_{int} = \delta \textbf{u}_{sj}^{T} \textbf{K}^{\tau s i j} \textbf{u}_{\tau i}  $$ \\ where $\textbf{K}^{\tau s i j}$ is the stiffness matrix written in the form of Fundamental Nucleus(FN). The FN is a $3*3$ array independent of he order of the strucutural model. The Nine components of the FN are given by\\
-$$K_{xx}^{\tau s i j} = C_{22} \int_{A}^{} F_{\tau,x} F_{s,x} dx dz \int_{l}^{} N_{i} N_{j} dy + C_{66} \int_{A}^{} F_{\tau,z} F_{s,z} dx dz \int_{l}^{} N_{i} N_{j} dy + C_{44} \int_{A}^{} F_{\tau} F_{s} dx dz\\$$ $$\int_{l}^{} N_{i,y} N_{j,y} dy $$\\
-$$ K_{xy}^{\tau s i j} = C_{23} \int_{A}^{} F_{\tau} F_{s,x} dx dz \int_{l}^{} N_{i,y} N_{j} dy + C_{44} \int_{A}^{} F_{\tau,x} F_{s} dx dz \int_{l}^{} N_{i} N_{j,y} dy$$\\
-$$ K_{xz}^{\tau s i j} = C_{12} \int_{A}^{} F_{\tau,z} F_{s,x} dx dz \int_{l}^{} N_{i} N_{j} dy + C_{44} \int_{A}^{} F_{\tau,x} F_{s,z} dx dz \int_{l}^{} N_{i} N_{j,y} dy$$\\
-$$ K_{yx}^{\tau s i j} = C_{44} \int_{A}^{} F_{\tau} F_{s,x} dx dz \int_{l}^{} N_{i,y} N_{j} dy + C_{23} \int_{A}^{} F_{\tau,x} F_{s} dx dz \int_{l}^{} N_{i} N_{j,y} dy$$\\
-\\
-\\
+\indent\indent\indent\indent In CUF the FE matrices(Stiffness and Mass matrix) are formulated in terms of Fundamental Nucleus(FN). The compact form of stiffness matrix is given by
+\begin{equation}
+\delta L_{int} = \delta \textbf{u}_{sj}^{T} \textbf{K}^{\tau s i j} \textbf{u}_{\tau i}
+\label{Internal}   
+\end{equation}
+where $\textbf{K}^{\tau s i j}$ is the stiffness matrix written in the form of Fundamental Nucleus(FN). The FN is a $3*3$ array independent of he order of the strucutural model. The Nine components of the FN are given by\\
+
+$$K_{xx}^{\tau s i j} = C_{22} \int_{A}^{} F_{\tau,x} F_{s,x} dx dz \int_{l}^{} N_{i} N_{j} dy + C_{66} \int_{A}^{} F_{\tau,z} F_{s,z} dx dz \int_{l}^{} N_{i} N_{j} dy + C_{44} \int_{A}^{} F_{\tau} F_{s} dx dz\\$$ $$\int_{l}^{} N_{i,y} N_{j,y} dy $$
+$$ K_{xy}^{\tau s i j} = C_{23} \int_{A}^{} F_{\tau} F_{s,x} dx dz \int_{l}^{} N_{i,y} N_{j} dy + C_{44} \int_{A}^{} F_{\tau,x} F_{s} dx dz \int_{l}^{} N_{i} N_{j,y} dy$$
+$$ K_{xz}^{\tau s i j} = C_{12} \int_{A}^{} F_{\tau,z} F_{s,x} dx dz \int_{l}^{} N_{i} N_{j} dy + C_{44} \int_{A}^{} F_{\tau,x} F_{s,z} dx dz \int_{l}^{} N_{i} N_{j,y} dy$$
+$$ K_{yx}^{\tau s i j} = C_{44} \int_{A}^{} F_{\tau} F_{s,x} dx dz \int_{l}^{} N_{i,y} N_{j} dy + C_{23} \int_{A}^{} F_{\tau,x} F_{s} dx dz \int_{l}^{} N_{i} N_{j,y} dy$$
+
+
 $$ K_{yy}^{\tau s i j} = C_{55} \int_{A}^{} F_{\tau,z} F_{s,z} dx dz \int_{l}^{} N_{i} N_{j} dy + C_{44} \int_{A}^{} F_{\tau,x} F_{s,x} dx dz \int_{l}^{} N_{i} N_{j} dy + C_{33} \int_{A}^{} F_{\tau} F_{s} dx dz\\$$ $$\int_{l}^{} N_{i,y} N_{j,y} dy $$\\
-$$ K_{yz}^{\tau s i j} = C_{55} \int_{A}^{} F_{\tau} F_{s,z} dx dz \int_{l}^{} N_{i,y} N_{j} dy + C_{13} \int_{A}^{} F_{\tau,z} F_{s} dx dz \int_{l}^{} N_{i} N_{j,y} dy$$\\
-$$ K_{zx}^{\tau s i j} = C_{12} \int_{A}^{} F_{\tau,x} F_{s,z} dx dz \int_{l}^{} N_{i} N_{j} dy + C_{66} \int_{A}^{} F_{\tau,z} F_{s,x} dx dz \int_{l}^{} N_{i} N_{j,y} dy$$\\
-$$ K_{yz}^{\tau s i j} = C_{13} \int_{A}^{} F_{\tau} F_{s,z} dx dz \int_{l}^{} N_{i,y} N_{j} dy + C_{55} \int_{A}^{} F_{\tau,z} F_{s} dx dz \int_{l}^{} N_{i} N_{j,y} dy$$\\
-$$ K_{yy}^{\tau s i j} = C_{11} \int_{A}^{} F_{\tau,z} F_{s,z} dx dz \int_{l}^{} N_{i} N_{j} dy + C_{66} \int_{A}^{} F_{\tau,x} F_{s,x} dx dz \int_{l}^{} N_{i} N_{j} dy + C_{55} \int_{A}^{} F_{\tau} F_{s} dx dz\\$$ $$\int_{l}^{} N_{i,y} N_{j,y} dy $$\\
+$$ K_{yz}^{\tau s i j} = C_{55} \int_{A}^{} F_{\tau} F_{s,z} dx dz \int_{l}^{} N_{i,y} N_{j} dy + C_{13} \int_{A}^{} F_{\tau,z} F_{s} dx dz \int_{l}^{} N_{i} N_{j,y} dy$$
+$$ K_{zx}^{\tau s i j} = C_{12} \int_{A}^{} F_{\tau,x} F_{s,z} dx dz \int_{l}^{} N_{i} N_{j} dy + C_{66} \int_{A}^{} F_{\tau,z} F_{s,x} dx dz \int_{l}^{} N_{i} N_{j,y} dy$$
+$$ K_{yz}^{\tau s i j} = C_{13} \int_{A}^{} F_{\tau} F_{s,z} dx dz \int_{l}^{} N_{i,y} N_{j} dy + C_{55} \int_{A}^{} F_{\tau,z} F_{s} dx dz \int_{l}^{} N_{i} N_{j,y} dy$$
+$$ K_{yy}^{\tau s i j} = C_{11} \int_{A}^{} F_{\tau,z} F_{s,z} dx dz \int_{l}^{} N_{i} N_{j} dy + C_{66} \int_{A}^{} F_{\tau,x} F_{s,x} dx dz \int_{l}^{} N_{i} N_{j} dy + C_{55} \int_{A}^{} F_{\tau} F_{s} dx dz\\$$ $$\int_{l}^{} N_{i,y} N_{j,y} dy $$
+
+\subsection*{Load Vector}
+\indent\indent\indent\indent The virtual variation of the external work due to load P is given by the equation below            
+\begin{equation}
+\delta L_{ext} = P\delta u^{T}
+\end{equation}
+By introducing nodal displacments and shape function for the Refined beam model the above equation becomes 
+\begin{equation}
+\delta L_{ext} = F_{\tau}N_{i}P\delta u^{T}_{\tau i}
+\end{equation}
+The above equation helps us to assemble the load vector  by detecting the displacement variables that has to be loaded. In case of a first order taylor expansion across the cross-section and a load P acting on X-direction only the virtual work is given by 
+\begin{equation}
+\delta L_{ext} = P_{u_{x}}\delta u_{x1} + x_{P} P_{u_{x}}\delta u_{x2} + z_{P} P_{u_{x}}\delta u_{x3}
+\end{equation}
+where $[x_{P}, z_{P}] $are the coordinates on the cross-section of the loading
+application point.\\
+
+\section*{Numerical methods and Implementation}
+\indent\indent\indent\indent The computation of the FN requires the evaluation of surface integrals in the cartesian coordinates(X and Z)
+$$\int_{A}^{} F_{\tau,x} F_{s,x} dx dz $$ where the 2D integration domain(A) can be of arbitrary shape. If normalized coordinates are used ($\alpha$ and $\beta$)
+the integral can be computed above the fixed 2D domain instead of the actual geometry. For example if quadrilateral elements are used the integral becomes $$ \int_{A}^{} F_{\tau,x}(x,z) F_{s,x}(x,z)dxdz = \int_{-1}^{+1}\int_{-1}^{+1} F_{\tau,x}(\alpha,\beta) F_{s,x}(\alpha,\beta) |J(\alpha,\beta)| d\alpha  d\beta$$ where $|J|$ is the Jacobian of the transformation. The Jacobian can be obtained form the following relation $$ F_{\tau,\alpha} = F_{\tau,x}\;x_{\alpha} + F_{\tau,z}\; z_{\alpha}$$ $$F_{\tau,\beta} = F_{\tau,x}\;x_{\beta} + F_{\tau,z}\; z_{\beta}$$
+It can be rewritten in the matrix form 
+$$
+\begin{Bmatrix}
+F_{\tau,\alpha}\\
+F_{\tau,\beta}   
+\end{Bmatrix}
+=
+\overbrace{
+\begin{bmatrix}
+x_{\alpha} & z_{\alpha} \\
+x_{\beta} & z_{\beta}
+\end{bmatrix}
+}^\text{Jacobian matrix}
+\begin{Bmatrix}
+F_{\tau,x}\\
+F_{\tau,z}   
+\end{Bmatrix}
+$$
+Derivatives inside the Jacobian matrix takes the form 
+$$x_{\alpha} = F_{1 ,\alpha}\;x_{1} + F_{2 ,\alpha}\;x_{2} + F_{3 ,\alpha}\;x_{3} + F_{4 ,\alpha}\;x_{4}
+$$ $$z_{\beta} = F_{1 ,\beta}\;z_{1} + F_{2 ,\beta}\;z_{2} + F_{3 ,\beta}\;z_{3} + F_{4 ,\beta}\;z_{4}$$\\
+
+\subsection*{Gauss quadrature for numerical integration}
+\indent\indent\indent\indent The integrals in the FN components have analytical solution but in practice numerical integration is used. Gauss quadrature is extensively used in FEA for the numerical integration purposes. Gauss quadrature approximates the definite integral of a function by taking weighted sum of a function at specified points with in the domain of integration. For example the 1D integration in the FN nucleus is approximated by $$\int_{-1}^{1} N_{i} N_{j}|J|\;d\xi = \sum_{h}^{} w_{h}\; N_{i}(\xi_{h})\; N_{j}(\xi_{h})\;|J(\xi_{h})|$$ where $w_{h}$ is the integration weight and $\xi_{h}$ is the integration point. The 2D integration in the FN is approximated as shown below $$\int_{-1}^{1}\int_{-1}^{1} F_{\tau}F_{s} |J| d\alpha d\beta = \sum_{h,k}^{} w_{h}\;w_{k}\;  F_{\tau}(\alpha_{h},\beta_{k})F_{s}(\alpha_{h},\beta_{k}) |J(\alpha_{h},\beta_{k})|$$ where $w_{h}$,   $w_{k}$ are the integration weights and $\alpha_{h},\beta_{k}$ are the integration points.
+The number of gauss points required for certain integral is given by the relation $ k = 2n_{p} - 1$ where $k$ is the order of integration and $n_{p}$ is the number of gauss points. For example the gauss points and weights for 1D and 2D integration using 2 gauss points is given below 
+\begin{table}[h!]
+  \begin{center}
+     \begin{tabular}{c|c} 
+      \textbf{$\xi_{h}$} & \textbf{$w_{h}$}\\
+      \hline
+      0.57735 & 1 \\
+      -0.57735& 1 \\
+       
+    \end{tabular}
+    \caption{Integration points and weights for 1D integration}
+    \label{tab:table2}
+  \end{center}
+\end{table}\\
+\begin{table}[h!]
+  \begin{center}
+     \begin{tabular}{c|c|c|c} 
+      \textbf{$\alpha_{h}$} & \textbf{$\beta_{k}$} &     \textbf{$w_{h}$} & \textbf{$w_{k}$}\\
+      \hline
+      0.57735 & 0.57735 & 1 & 1\\
+       0.57735 &-0.57735 &1 & 1\\
+     -0.57735 & 0.57735 & 1 & 1\\
+     -0.57735 &-0.57735 &1 & 1\\
+    \end{tabular}
+    \caption{Integration points and weights for 2D integration}
+    \label{tab:table2}
+  \end{center}
+\end{table}
+
+\subsection*{Implementation}
+\subsubsection*{Stiffness matrix}
+\indent\indent In CUF, stiffness matrix is computed in terms of FN. The FN is a 3*3 matrix whose nine components are given in the equation. Four indices are used to assemble the stiffness matrix ($\tau$,s,i,j). $\tau$,s are related to the expansion functions $F_{\tau}$ and $F_{s}$ and the FN is computed by varying $\tau$ and s. The block computed by varying $\tau$ and s is called nodal stiffness matrix. Element stiffness matrix is then computed by assembling the nodal stiffness matrix by varying i and j. After that global stiffness matrix is obtained by assembling the element stiffness matrix of each element using the appropriate assignment matrix. The process of assembling global stiffness matrix is shown in the figure \ref{fig:graph} below
+
+\begin{figure}[!htbp]
+  \centering
+  \begin{minipage}[b]{0.35\textwidth}
+    \includegraphics[width=\textwidth]{3.png}
+    \caption{Nodal stiffness}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[b]{0.35\textwidth}
+    \includegraphics[width=\textwidth]{4.png}
+    \caption{Element stiffness}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[b]{0.35\textwidth}
+    \includegraphics[width=\textwidth]{5.png}
+    \caption{Global stiffness}
+  \end{minipage}
+\end{figure}
+The graphical description of the process of assembling stiffness matrix is given in the figure below. 
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=0.7\textwidth]{{6.png}}
+ \caption{Graphical description of the FN implementation}
+ \label{fig:graph}
+\end{center}
+\end{figure}
+Since L4 Polynomials are used, instead of having single node as if in 1D FEM each node will have four nodal points(beacuse of the L4 expansion). Therefore a single B2(Linear) element has 8 nodes and each node has 3 degree of freedom(DOF). As a result of that each B2 element will have 24*24 element stiffness matrix(8*3). This gets more complex if B3(36*36 matrix) and B4(48*48 matrix) elements are used for the analysis. Therefore appropriate assignment matrix has to be computed for each case in order to assemble the element stiffness matrix to get global stiffness matrix.
+\subsubsection*{Load Vector}
+\indent\indent\indent The Load Vector for any type of loading can be derived from the equation (4). Let us consider a B2 element having a square cross section is loaded by a downward force P(Z-direction) at the central point of the tip cross section(Cantilever beam). The Load vector is computed by the PVD
+\begin{equation}
+\delta L_{ext} = F_{\tau}N_{i}P\delta u^{T}_{\tau i}
+\label{PVD}
+\end{equation}
+The value of the shape function at the loading point is 1 and at the fixed end it is zero. Therefore $N_{1} = 0$ and $N_{2} = 1$. P acts in z direction therefore only $u_{z}$ components of the load vector are involved. Therefore the virtual variation of the external work is given by
+$$
+\delta L_{ext} = P F_{1} u_{z_{11}} + P F_{2} u_{z_{12}} + P F_{3} u_{z_{13}} + P F_{4} u_{z_{14}}
+$$
+By substituting the value of the natural coordinates($\alpha,\beta$) of the loading position(0,0) in the Lagrange polynomials of the above equation we get
+$$
+\delta L_{ext} = \frac{P}{4} u_{z_{11}} + \frac{P}{4} u_{z_{12}} + \frac{P}{4} u_{z_{13}} + \frac{P}{4} u_{z_{14}} 
+$$
+According to the above equation, a load of magnitude $\frac{P}{4}$ has to be placed in the 3,6,9 and 12th postion of the nodal load vector. 
+
+\subsubsection*{Postprocessing (Displacements,Stresses and Strains)}
+\indent\indent\indent From the displacement values obtained from the analysis strain and stress values at the point of interest can be obtained. In order to do that the dsiplacement values are expanded over all the points where post processing is needed. This expansion can be done with the help of shape functions. The shape functions $(N_{i}(y))$ along the beam axis and expansion functions $(F_{\tau})$ above the cross section. The equation for expansion is shown in the equation below
+
+\begin{equation}
+u_{x}(x_{p},y_{p},z_{p}) = N_{i}(y_{p}) F_{\tau}(x_{p},z_{p})u_{x_{\tau i}}
+\end{equation}
+\begin{equation}
+u_{y}(x_{p},y_{p},z_{p}) = N_{i}(y_{p}) F_{\tau}(x_{p},z_{p})u_{y_{\tau i}}
+\end{equation}
+\begin{equation}
+u_{z}(x_{p},y_{p},z_{p}) = N_{i}(y_{p}) F_{\tau}(x_{p},z_{p})u_{z_{\tau i}}
+\end{equation}
+where  $[x_{p},y_{p},z_{p}]$ is a generic point of the structure where the displacement values have to be computed. The terms $[u_{x_{\tau i}},u_{y_{\tau i}},u_{z_{\tau i}}]$ are the x,y and z displacment of the nodal points computed from the FE Analysis. 
+Stress and strain components are straightforwardly computed from the nodal displacement values. In order to find the strains partial derivatives are required which can be calculated by means of shape and expansion function.
+
+\begin{equation}
+u,_{x} = (F_{\tau} N_{i} u_{\tau i}),_{x} = F_{\tau,x} N_{i} u_{\tau i}
+\end{equation}
+\begin{equation}
+u,_{y} = (F_{\tau} N_{i} u_{\tau i}),_{y} = F_{\tau} N_{i,y} u_{\tau i}
+\end{equation}
+\begin{equation}
+u,_{z} = (F_{\tau} N_{i} u_{\tau i}),_{z} = F_{\tau,z} N_{i} u_{\tau i}
+\end{equation}
+As the strain field is computed, stress components are obtained through the constitutive laws
+\begin{equation}
+\{\sigma\} = [C]\;\{\epsilon\}
+\end{equation}
+
+\section*{Results and Discussion}
+\indent\indent\indent\indent Beams subjected to bending loads are analyzed here using Refined 1D beam models. Clamped boundary conditions are accounted for the analysis. The beams are considered to have conventional Square cross section and unconventional elliptical cross section. An isotropic material of Young's modulus(E) 75 [Gpa] and a Poisson's ratio of 0.33 is used for both the cases.
+
+\subsection*{Inital Tests}
+\indent\indent\indent\indent Before analyzing the above mentioned cross sections, two fundamental test has been conducted in order to test the functionality of the code. The test are stiffness matrix test and tension test.
+
+\subsubsection*{Stiffness matrix test}
+\indent\indent\indent\indent In order to check whether the stiffness matrix derived using the Fundamental Nucleus(FN) technique (a rather new approach) works well, one of the components of the stiffness matrix derived for particular case using analytical solution presented in the literature has been compared with the same component for the same case obtained using the implemented code. The test case is given as follows: A rectangular beam of length L is considered. A B2 element is used along the beam axis and an L4 element is adopted across the cross section. The analytical solution for the 15*3 component of the element stiffness matrix is given below
+\begin{equation}
+k^{2122}_{xx} = \frac{1}{18} \frac{b L}{a} C_{22} + \frac{1}{18} \frac{a L}{b} C_{66} - \frac{4}{9} \frac{a b}{L} C_{44}
+\end{equation}
+For a square cross section beam of length L = 2m, cross section of a = b = 0.2m and elastic constants($C_{22},C_{44},C_{66}$) for the above given isotropic material the obtained value of the above component is $1.544*10^{10}$. The value of the same 15*3 component of the element stiffness matrix obtained using the implemented code is $1.522*10^{10}$. This proves that the implemented code complies well with the analytical solution.
+\subsubsection*{Tension test}
+\indent\indent\indent\indent Since refined 1D beam models are generalized models, tension test can be carried out by deriving appropriate load vector which applies the load in the positive y direction(along beam axis). And also the exact solution for calculating the deformation due to tensile load can be easily derived, it serves as a viable candidate to check whether the displacement obtained from the implemented code is correct or not. The deformation due to tensile load is given by 
+\begin{equation}
+dL = \frac{P L}{E A}
+\label{exactdef}
+\end{equation}
+where P - load applied, L - length of the beam, A - area of cross section and E - Young's modulus. For a load of 50N and a beam of above given parameters the deformation due to the load P is found to be $3.3*10^{-8}m$. The Load vector for tension load(used in code) can be derived using the equation (\ref{PVD}) by applying the load in positive y direction. The deformation calculated by the implemented code(using 20 B2 elements) due to tensile of 50N is found to be $2.96*10^{-8}$. This proves that the deformation obtained using the implemented model is close enough to the exact solution.
+ 
 
 \end{document}
+

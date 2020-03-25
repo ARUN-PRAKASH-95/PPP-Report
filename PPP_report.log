@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.5.26)  14 FEB 2020 16:02
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.5.26)  25 MAR 2020 21:12
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -179,7 +179,11 @@ s
 )
 (/usr/share/texlive/texmf-dist/tex/latex/relsize/relsize.sty
 Package: relsize 2013/03/29 ver 4.1
-) (./PPP_report.aux)
+) (./PPP_report.aux
+
+LaTeX Warning: Label `tab:table2' multiply defined.
+
+)
 \openout1 = `PPP_report.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 27.
@@ -311,7 +315,7 @@ File: 2.png Graphic file (type png)
 Package pdftex.def Info: 2.png  used on input line 55.
 (pdftex.def)             Requested size: 350.81174pt x 205.2942pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 61--77
+Underfull \hbox (badness 10000) in paragraph at lines 64--80
 
  []
 
@@ -319,107 +323,98 @@ Underfull \hbox (badness 10000) in paragraph at lines 61--77
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 [3 <./2.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 86--87
+Underfull \hbox (badness 10000) in paragraph at lines 93--95
 
  []
 
 
-Overfull \hbox (13.73117pt too wide) detected at line 87
+Overfull \hbox (13.73117pt too wide) detected at line 96
 \OML/cmm/m/it/12 K[] \OT1/cmr/m/n/12 = \OML/cmm/m/it/12 C[] [][] F[]F[]dxdz [][
 ] N[]N[]dy \OT1/cmr/m/n/12 + \OML/cmm/m/it/12 C[] [][] F[]F[]dxdz [][] N[]N[]dy
  \OT1/cmr/m/n/12 + \OML/cmm/m/it/12 C[] [][] F[]F[]dxdz[] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 87--88
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 88--89
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 89--90
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 90--93
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 90--93
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 90--93
-
- []
-
-
-Overfull \hbox (13.73117pt too wide) detected at line 93
+Overfull \hbox (13.73117pt too wide) detected at line 102
 \OML/cmm/m/it/12 K[] \OT1/cmr/m/n/12 = \OML/cmm/m/it/12 C[] [][] F[]F[]dxdz [][
 ] N[]N[]dy \OT1/cmr/m/n/12 + \OML/cmm/m/it/12 C[] [][] F[]F[]dxdz [][] N[]N[]dy
  \OT1/cmr/m/n/12 + \OML/cmm/m/it/12 C[] [][] F[]F[]dxdz[] 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 102--103
+
  []
 
 [4]
-Underfull \hbox (badness 10000) in paragraph at lines 93--94
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 94--95
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 95--96
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 96--97
-
- []
-
-
-Overfull \hbox (13.73117pt too wide) detected at line 97
+Overfull \hbox (13.73117pt too wide) detected at line 106
 \OML/cmm/m/it/12 K[] \OT1/cmr/m/n/12 = \OML/cmm/m/it/12 C[] [][] F[]F[]dxdz [][
 ] N[]N[]dy \OT1/cmr/m/n/12 + \OML/cmm/m/it/12 C[] [][] F[]F[]dxdz [][] N[]N[]dy
  \OT1/cmr/m/n/12 + \OML/cmm/m/it/12 C[] [][] F[]F[]dxdz[] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 97--98
+Underfull \hbox (badness 10000) in paragraph at lines 120--123
 
  []
 
-[5] (./PPP_report.aux) ) 
+[5]
+Underfull \hbox (badness 10000) in paragraph at lines 148--149
+
+ []
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[6]
+<3.png, id=33, 363.3575pt x 381.425pt>
+File: 3.png Graphic file (type png)
+<use 3.png>
+Package pdftex.def Info: 3.png  used on input line 188.
+(pdftex.def)             Requested size: 153.48222pt x 161.11697pt.
+<4.png, id=34, 364.36125pt x 372.39125pt>
+File: 4.png Graphic file (type png)
+<use 4.png>
+Package pdftex.def Info: 4.png  used on input line 193.
+(pdftex.def)             Requested size: 153.48222pt x 156.86351pt.
+<5.png, id=35, 343.2825pt x 328.22626pt>
+File: 5.png Graphic file (type png)
+<use 5.png>
+Package pdftex.def Info: 5.png  used on input line 198.
+(pdftex.def)             Requested size: 153.48222pt x 146.74886pt.
+<6.png, id=36, 449.68pt x 487.8225pt>
+File: 6.png Graphic file (type png)
+<use 6.png>
+Package pdftex.def Info: 6.png  used on input line 205.
+(pdftex.def)             Requested size: 306.95775pt x 333.01009pt.
+ [7 <./3.png> <./4.png> <./5.png>] [8 <./6.png>] [9] [10] (./PPP_report.aux)
+
+LaTeX Warning: There were multiply-defined labels.
+
+ ) 
 Here is how much of TeX's memory you used:
- 3998 strings out of 494880
- 59222 string characters out of 6179601
- 124121 words of memory out of 5000000
- 7275 multiletter control sequences out of 15000+600000
+ 4024 strings out of 494880
+ 59457 string characters out of 6179601
+ 126210 words of memory out of 5000000
+ 7297 multiletter control sequences out of 15000+600000
  11467 words of font info for 41 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
- 41i,9n,43p,778b,320s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/share/texlive/texmf-dist/fonts/type1/public/amsfo
-nts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm
-/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi1
-2.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb><
-/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/sh
-are/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/tex
-live/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/tex
-mf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
-Output written on PPP_report.pdf (5 pages, 141483 bytes).
+ 41i,14n,43p,997b,327s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></us
+r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/shar
+e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texl
+ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/share/texlive/tex
+mf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist
+/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/
+type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/fonts/type1/p
+ublic/amsfonts/cm/cmr6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/am
+sfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/c
+m/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy
+8.pfb>
+Output written on PPP_report.pdf (10 pages, 255165 bytes).
 PDF statistics:
- 54 PDF objects out of 1000 (max. 8388607)
- 36 compressed objects within 1 object stream
+ 87 PDF objects out of 1000 (max. 8388607)
+ 57 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 11 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 31 words of extra memory for PDF output out of 10000 (max. 10000000)
 
