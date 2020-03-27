@@ -1,6 +1,8 @@
 \documentclass[a4paper,12pt]{article}
     \usepackage{amsmath}
+    \usepackage{lipsum}
     \usepackage{graphicx}
+    \usepackage{booktabs}
     \usepackage{cite}
 	\usepackage{caption}
 	\usepackage{subcaption}
@@ -174,7 +176,7 @@ The number of gauss points required for certain integral is given by the relatio
      -0.57735 &-0.57735 &1 & 1\\
     \end{tabular}
     \caption{Integration points and weights for 2D integration}
-    \label{tab:table2}
+    \label{tab:table3}
   \end{center}
 \end{table}
 
@@ -254,10 +256,10 @@ As the strain field is computed, stress components are obtained through the cons
 \end{equation}
 
 \section*{Results and Discussion}
-\indent\indent\indent\indent Beams subjected to bending loads are analyzed here using Refined 1D beam models. Clamped boundary conditions are accounted for the analysis. The beams are considered to have conventional Square cross section and unconventional elliptical cross section. An isotropic material of Young's modulus(E) 75 [Gpa] and a Poisson's ratio of 0.33 is used for both the cases.
+\indent\indent\indent\indent Beams subjected to bending loads are analyzed here using Refined 1D beam models. Clamped boundary conditions are accounted for the analysis. The beams are considered to have conventional square cross section and unconventional elliptical cross section. An isotropic material of Young's modulus(E) 75 [Gpa] and a Poisson's ratio of 0.33 is used for both the cases.
 
 \subsection*{Inital Tests}
-\indent\indent\indent\indent Before analyzing the above mentioned cross sections, two fundamental test has been conducted in order to test the functionality of the code. The test are stiffness matrix test and tension test.
+\indent\indent\indent\indent Before analyzing the above mentioned cross sections, two fundamental test has been conducted in order to test the functionality of the code. The tests are stiffness matrix test and tension test.
 
 \subsubsection*{Stiffness matrix test}
 \indent\indent\indent\indent In order to check whether the stiffness matrix derived using the Fundamental Nucleus(FN) technique (a rather new approach) works well, one of the components of the stiffness matrix derived for particular case using analytical solution presented in the literature has been compared with the same component for the same case obtained using the implemented code. The test case is given as follows: A rectangular beam of length L is considered. A B2 element is used along the beam axis and an L4 element is adopted across the cross section. The analytical solution for the 15*3 component of the element stiffness matrix is given below
@@ -272,7 +274,114 @@ dL = \frac{P L}{E A}
 \label{exactdef}
 \end{equation}
 where P - load applied, L - length of the beam, A - area of cross section and E - Young's modulus. For a load of 50N and a beam of above given parameters the deformation due to the load P is found to be $3.3*10^{-8}m$. The Load vector for tension load(used in code) can be derived using the equation (\ref{PVD}) by applying the load in positive y direction. The deformation calculated by the implemented code(using 20 B2 elements) due to tensile of 50N is found to be $2.96*10^{-8}$. This proves that the deformation obtained using the implemented model is close enough to the exact solution.
- 
+\newpage
+\subsection*{Square cross-section beam}
+\indent\indent\indent\indent A cantilever beam of square cross-section undergoing a vertical force, $P_{u_{z}}$, is considered for the analysis. A load ($P_{u_{z}}$) of -50[N] is applied at the central point of the tip cross-section in order to perform typical bending analysis. The sides of the section (a) are equal to 0.2 [m]. The span to height ratio $\frac{L}{h}$ is equal to 10. The mechanics of the beam is described in terms of the maximum vertical displacement($u_{z}$) computed at the central point of the tip cross-section and the maximum absolute value of axial strain and stress. A reference solution for the above given terms is given as follows\\
+\\
+Maximum vertical displacement 
+\begin{equation}
+u_{z} = \frac{P_{u_{z}} L^{3}}{3 E I}
+\label{u_z}
+\end{equation}
+\\
+Absolute value of maximum strain
+\begin{equation}
+\epsilon_{yy} = \frac{P_{u_{z}} L h}{2 E I}
+\end{equation}
+\\
+Absolute value of maximum stress
+\begin{equation}
+\sigma_{yy} = \frac{P_{u_{z}} L h}{2 I}
+\end{equation}
+\subsubsection*{Maximum vertical displacement ($u_{z}$)}
+Tables 4, 5 and 6 presents the maximum vertical displacement, $u_{z}$, computed using Linear (B2), Quadratic (B3) and Cubic (B4) elements respectively along the beam axis. L4 expansion is used across the cross-section for all the cases and a span to height ratio of 10 is used. The reference solution for maximum vertical displacement, $u_{z}$, obtained using the formula (\ref{u_z}) is $-1.333*10^{-5}\;[m]$. From the tables, it is evident that the accuracy of the displacement values increases with increase in number of elements along the beam axis. Because higher number of elements increases the flexibility of the structure. In case of linear elements, the model converges to a maximum displacement of only $-0.9*10^{-5}\;[m]$ as seen from the table (\ref{tab:table 4}).
+\begin{table}[h!]
+  \begin{center}
+     \begin{tabular}{c c}
+      \hline\\
+      \textbf{No of elements} & \textbf{$u_{z}*10^{5}\;[m]$} \\
+      \\
+      \hline
+      \\[-2pt]
+       1 & -0.68 \\[5pt]
+       2 & -0.85 \\[5pt]
+      10 & -0.90 \\[5pt]
+      20 & -0.90 \\[5pt]
+      40 & -0.90 \\[5pt]
 
+      \hline
+     \end{tabular}
+    \caption{Displacement values ($u_{z}$) obtained using B2 element}
+    \label{tab:table 4}
+  \end{center}
+\end{table}
+\newpage
+The accuracy of the model can be increased by changing the type of element. Table (\ref{tab:table 5}) presents the value of maximum vertical displacement computed using Quadratic element. The model predicts a displacement of $-0.9499*10^{-5}\;[m]$ in the beginning and converges to a maximum displacement of $-1.283*10^{-5}\;[m]$ which is pretty close to the reference solution.
+\begin{table}[h!]
+  \begin{center}
+     \begin{tabular}{c c}
+      \hline\\
+      \textbf{No of elements} & \textbf{$u_{z}*10^{5}\;[m]$} \\
+      \\
+      \hline
+      \\[-2pt]
+       1 & -0.949 \\[5pt]
+       2 & -1.224 \\[5pt]
+      10 & -1.286 \\[5pt]
+      20 & -1.283 \\[5pt]
+      40 & -1.283 \\[5pt]
+
+      \hline
+     \end{tabular}
+    \caption{Displacement values obtained ($u_{z}$) using B3 element}
+    \label{tab:table 5}
+  \end{center}
+\end{table}
+
+Table (\ref{tab:table 6}) presents the maximum vertical displacement obtained using the Cubic element (B4). The model predicts a displacement of $-0.9088*10^{-5}\;[m]$ initally and it stays at the same value even if the number of elements is increased. The cubic element is supposed to be more accurate than quadratic element, on contrary it stays at the same value. The problem could be due to the fact that the cubic element might not work well with L4 polynomial expansion across the cross-section. Therefore, higher order polynomials like L9 or L16 has to be implemented in order to make cubic element models more accurate. 
+\begin{table}[h!]
+  \begin{center}
+     \begin{tabular}{c c}
+      \hline\\
+      \textbf{No of elements} & \textbf{$u_{z}*10^{5}\;[m]$} \\
+      \\
+      \hline
+      \\[-2pt]
+       1 & -0.908 \\[5pt]
+       2 & -0.908 \\[5pt]
+      10 & -0.908 \\[5pt]
+      20 & -0.908 \\[5pt]
+      40 & -0.908 \\[5pt]
+
+      \hline
+     \end{tabular}
+    \caption{Displacement values obtained ($u_{z}$) using B4 element}
+    \label{tab:table 6}
+  \end{center}
+\end{table}
+
+Therefore, it can be concluded that the quadratic beam element has the potential to yield more accurate results provided that L4 polynomial expansion is used across the cross-section. 
+
+\newpage
+The comparison of vertical displacements ($u_{z}$) of the central point of the tip cross section for different beam elements is shown in Fig.\ref{fig:Z comparison}. 1, 2, 10, 20, 40 number of elements are considered for the comparison.
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=0.8\textwidth]{{7.png}}
+ \caption{$u_{z}$ vs number of beam elements for different type elements}
+ \label{fig:Z comparison}
+\end{center}
+\end{figure}
+Fig (\ref{fig:Z_B3}) shows the Z displacement of the central point of all cross-sections of the beam. It shows the typical bending behaviour of the beam. The displacements are computed using 20 B3 elements along the beam axis and L4 polynomials across the cross-section. 
+\\
+\\
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=0.53\textwidth]{{8.png}}
+ \caption{Displacement ($u_{z}$) of the beam using 20 B3 elements }
+ \label{fig:Z_B3}
+\end{center}
+\end{figure}
+\newpage
+\subsubsection*{Maximum axial strain and stress}
 \end{document}
 
