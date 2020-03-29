@@ -1,5 +1,6 @@
 \documentclass[a4paper,12pt]{article}
     \usepackage{amsmath}
+    \usepackage{stackengine}
     \usepackage{lipsum}
     \usepackage{graphicx}
     \usepackage{booktabs}
@@ -14,7 +15,8 @@
     \setlength{\@fptop}{0pt}
     \makeatother
 
-\title{\Huge{\textbf{Static Analysis of Beam structures using Refined 1D beam model}}\\[0.5em]\smaller \textbf{Personal Programming Project Report  Winter semester 2019/2020}}
+\title{\Huge{\textbf{Static analysis of beam structures using Refined 1D beam model}}\\[0.5em]\smaller \textbf{Personal programming project (PPP)   Winter semester 2019/2020}}
+
 \author{\LARGE{Arun Prakash Ganapathy}\\
 \\
 \Large{Mat.Nr. 63876}\\
@@ -243,12 +245,15 @@ Stress and strain components are straightforwardly computed from the nodal displ
 
 \begin{equation}
 u,_{x} = (F_{\tau} N_{i} u_{\tau i}),_{x} = F_{\tau,x} N_{i} u_{\tau i}
+\label{u,x}
 \end{equation}
 \begin{equation}
 u,_{y} = (F_{\tau} N_{i} u_{\tau i}),_{y} = F_{\tau} N_{i,y} u_{\tau i}
+\label{u,y}
 \end{equation}
 \begin{equation}
 u,_{z} = (F_{\tau} N_{i} u_{\tau i}),_{z} = F_{\tau,z} N_{i} u_{\tau i}
+\label{u,z}
 \end{equation}
 As the strain field is computed, stress components are obtained through the constitutive laws
 \begin{equation}
@@ -275,7 +280,7 @@ dL = \frac{P L}{E A}
 \end{equation}
 where P - load applied, L - length of the beam, A - area of cross section and E - Young's modulus. For a load of 50N and a beam of above given parameters the deformation due to the load P is found to be $3.3*10^{-8}m$. The Load vector for tension load(used in code) can be derived using the equation (\ref{PVD}) by applying the load in positive y direction. The deformation calculated by the implemented code(using 20 B2 elements) due to tensile of 50N is found to be $2.96*10^{-8}$. This proves that the deformation obtained using the implemented model is close enough to the exact solution.
 \newpage
-\subsection*{Square cross-section beam}
+\subsection*{Square cross-section beam:}
 \indent\indent\indent\indent A cantilever beam of square cross-section undergoing a vertical force, $P_{u_{z}}$, is considered for the analysis. A load ($P_{u_{z}}$) of -50[N] is applied at the central point of the tip cross-section in order to perform typical bending analysis. The sides of the section (a) are equal to 0.2 [m]. The span to height ratio $\frac{L}{h}$ is equal to 10. The mechanics of the beam is described in terms of the maximum vertical displacement($u_{z}$) computed at the central point of the tip cross-section and the maximum absolute value of axial strain and stress. A reference solution for the above given terms is given as follows\\
 \\
 Maximum vertical displacement 
@@ -287,13 +292,15 @@ u_{z} = \frac{P_{u_{z}} L^{3}}{3 E I}
 Absolute value of maximum strain
 \begin{equation}
 \epsilon_{yy} = \frac{P_{u_{z}} L h}{2 E I}
+\label{eyy}
 \end{equation}
 \\
 Absolute value of maximum stress
 \begin{equation}
 \sigma_{yy} = \frac{P_{u_{z}} L h}{2 I}
+\label{syy}
 \end{equation}
-\subsubsection*{Maximum vertical displacement ($u_{z}$)}
+\subsubsection*{Maximum vertical displacement ($u_{z}$):}
 Tables 4, 5 and 6 presents the maximum vertical displacement, $u_{z}$, computed using Linear (B2), Quadratic (B3) and Cubic (B4) elements respectively along the beam axis. L4 expansion is used across the cross-section for all the cases and a span to height ratio of 10 is used. The reference solution for maximum vertical displacement, $u_{z}$, obtained using the formula (\ref{u_z}) is $-1.333*10^{-5}\;[m]$. From the tables, it is evident that the accuracy of the displacement values increases with increase in number of elements along the beam axis. Because higher number of elements increases the flexibility of the structure. In case of linear elements, the model converges to a maximum displacement of only $-0.9*10^{-5}\;[m]$ as seen from the table (\ref{tab:table 4}).
 \begin{table}[h!]
   \begin{center}
@@ -382,6 +389,67 @@ Fig (\ref{fig:Z_B3}) shows the Z displacement of the central point of all cross-
 \end{center}
 \end{figure}
 \newpage
-\subsubsection*{Maximum axial strain and stress}
+\subsubsection*{Maximum axial strain and stress ($\epsilon_{yy}$, $\sigma_{yy}$):}
+\indent\indent\indent\indent  The main aim of the refined 1D beam model is to predict the 3D behaviour of the beam when subjected to loading. With the help of X, Y and Z displacements, strains and stresses at any point in the beam can be computed using the equations \ref{u,x}, \ref{u,y} and \ref{u,z}. Since vertical load is applied in the beam, X displacement becomes zero so it can be neglected. The maximum axial strain and stress given by the equations \ref{eyy} and \ref{syy} serves as a reference solution for comparing the stresses and strains computed by our model. Since maximum axial strains and stresses are present in the fixed end, it can be computed with the help of Y displacements of the section close to the fixed end. With the help of displacements, shape functions and equation \ref{u,y}, axial strain ($\epsilon_{yy}$) at any point in the cross-section can be computed. Fig \ref{fig:eyy}, presents the variation of axial strain above the cross-section at the fixed end computed using 40 B4 elements along the beam axis and a 50*50 meshgrid.
+\\
+\\
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=0.7\textwidth]{{9.png}}
+ \caption{Axial strain ($\epsilon_{yy}$) above the cross-section at y=0}
+ \label{fig:eyy}
+\end{center}
+\end{figure}
+
+Table \ref{tab:table 7} presents the absolute value and the position of maximum axial strains and stresses computed at the fixed end (Y=0) using different type of elements. The position of maximum stresses and strains does not depend on x. It is observed from the table that maximum stress and strain computed using B2 and B3 elements agrees well with the reference soltion. But the values computed using B4 element does not matches well because of the fact that B4 element requires higher order expansion across the cross-section to increase its accuracy. Fig \ref{fig:eyy_y} and  \ref{fig:syy_y} presents the variation in the axial strain and stress versus z at x = y = 0.
+
+\newpage
+\begin{table}[h!]
+  \begin{center}
+     \begin{tabular}{c c c p{2cm} c c}
+      \hline\\
+      \textbf{Type of element} & \textbf{$\epsilon_{zz}*10^{6}$} & \textbf{$\sigma_{zz}\;[MPa]$} &                    \textbf{x} & \textbf{y} & \textbf{z} \\
+      \\
+      \hline
+      \\[-2pt]
+       Ref soln & 1.000  & 0.075 & $-\frac{b}{2} \leq +\frac{b}{2}$ & $\pm \frac{h}{2}$ & 0 \\[5pt]
+       B2       & 1.333 &  0.099 & $-\frac{b}{2} \leq +\frac{b}{2}$ & $\pm \frac{h}{2}$ & 0 \\[5pt]
+       B3       & 1.333 &  0.099 & $-\frac{b}{2} \leq +\frac{b}{2}$ & $\pm \frac{h}{2}$ & 0 \\[5pt]
+       B4       & 0.448 &  0.033 & $-\frac{b}{2} \leq +\frac{b}{2}$ & $\pm \frac{h}{2}$ & 0 \\[5pt]
+     
+      \hline
+     \end{tabular}
+    \caption{Displacement values obtained ($u_{z}$) using B4 element (40 elements)}
+    \label{tab:table 7}
+  \end{center}
+\end{table}
+
+
+
+From fig \ref{fig:eyy_y}, it is observed that B2 and B3 beam elements produces almost same strain values and they are close to the reference solution. But the values computed by B4 element is not close to the reference solution. The same can be observed for the fig \ref{fig:syy_y} which shows the axial stress vs y at x = y = 0.  
+\\
+\\
+\\
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=0.73\textwidth]{{10.png}}
+ \caption{Axial strain ($\epsilon_{yy}$) vs z at x=0 and y=0. Type of  element:B4. 40 beam elements.}
+ \label{fig:eyy_y}
+\end{center}
+\end{figure}
+
+\newpage
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=0.7\textwidth]{{11.png}}
+ \caption{Axial stress ($\sigma_{yy}$) vs z at x=0 and y=0. Type of  element:B4. 40 beam elements.}
+ \label{fig:syy_y}
+\end{center}
+\end{figure}
+
+
+
+
+
 \end{document}
 
