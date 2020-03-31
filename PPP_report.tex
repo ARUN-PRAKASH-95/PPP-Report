@@ -6,6 +6,7 @@
     \usepackage{booktabs}
     \usepackage{cite}
 	\usepackage{caption}
+	\usepackage{float}
 	\usepackage{subcaption}
     \usepackage{multirow}
     \usepackage[top=1in, bottom=1.1in, left=1.1in, right=1.1in]{geometry}
@@ -429,7 +430,6 @@ Table \ref{tab:table 7} presents the absolute value and the position of maximum 
 From fig \ref{fig:eyy_y}, it is observed that B2 and B3 beam elements produces almost same strain values and they are close to the reference solution. But the values computed by B4 element is not close to the reference solution. The same can be observed for the fig \ref{fig:syy_y} which shows the axial stress vs y at x = y = 0.  
 \\
 \\
-\\
 \begin{figure}[htbp]
 \begin{center}
 \includegraphics[width=0.73\textwidth]{{10.png}}
@@ -438,6 +438,7 @@ From fig \ref{fig:eyy_y}, it is observed that B2 and B3 beam elements produces a
 \end{center}
 \end{figure}
 
+With the maximum stress and strain verified using the reference solution, the distribution of strains and stresses at any point in the beam can be found out using the displacement values obtained at the nodes and shape functions. Figure \ref{fig:strain_dis} and \ref{fig:stress_dis} shows the distribution of strains and stresses at the cross-section close to the fixed end.
 \newpage
 \begin{figure}[htbp]
 \begin{center}
@@ -445,9 +446,205 @@ From fig \ref{fig:eyy_y}, it is observed that B2 and B3 beam elements produces a
  \caption{Axial stress ($\sigma_{yy}$) vs z at x=0 and y=0. Type of  element:B4. 40 beam elements.}
  \label{fig:syy_y}
 \end{center}
+\end{figure} 
+This distribution of strains and stresses are obtained by computing strain values at all the points in a 50*50 meshgrid by interpolation of strains with the help of displacements and shape functions.
+\\
+\\ 
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=0.7\textwidth]{{12.png}}
+ \caption{Distribution of strain at the fixed end cross-section ($\epsilon_{yy}$)}
+ \label{fig:strain_dis}
+\end{center}
+\end{figure}
+
+\newpage
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=0.7\textwidth]{{13.png}}
+ \caption{Distribution of stress at the fixed end cross-section ($\sigma_{yy}$)}
+ \label{fig:stress_dis}
+\end{center}
+\end{figure}
+
+In order to check whether the implemented model can be applied for practical applications, a NASTRAN model has been built for the comparison purpose. Fig \ref{fig:nastran} presents the NASTRAN model which shows the distribution of axial stress ($\sigma_{yy}$). It is observed from the figure that it shows a stress range of -0.0905 [MPa] to 0.0916 [MPa]. This close enough to our implemented model where the stress ranges from -0.1 [MPa] to 0.1 [MPa] as seen in the figure \ref{fig:stress_dis}.
+\\
+\\
+\\
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=0.7\textwidth]{{14.png}}
+ \caption{NASTRAN model showing the distribution of axial stress ($\sigma_{yy}$) }
+ \label{fig:nastran}
+\end{center}
+\end{figure}
+\newpage
+\subsubsection*{Y displacement of the tip cross-section:}
+\indent\indent\indent\indent Y displacement of the tip cross-section gives a better understanding of the tilt of the end cross-section visually which cannot be obtained from classical beam models like Euler-Bernoulli. Y displacement of the nodes of end cross-section and shape functions are used to interpolate the displacement values across the whole cross-section using 50*50 meshgrid. 
+\\
+\\
+\\
+\begin{figure}[!htbp]
+  \centering
+  \begin{minipage}[b]{0.45\textwidth}
+    \includegraphics[width=\textwidth]{15.png}
+    \caption{B2 element along Y axis}
+    \label{fig: Y_B2}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[b]{0.45\textwidth}
+    \includegraphics[width=\textwidth]{16.png}
+    \caption{B3 element along Y axis}
+    \label{fig: Y_B3}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[b]{0.45\textwidth}
+    \includegraphics[width=\textwidth]{17.png}
+    \caption{B4 element along Y axis}
+    \label{fig: Y_B4}
+  \end{minipage}
+\end{figure}
+
+Figure \ref{fig: Y_B2}, \ref{fig: Y_B3} and \ref{fig: Y_B4} shows the tilt of end cross-section computed using 40 B2, B3 an B4 elements respectively. Table \ref{tab:table 8}  shows the comparison of peak Y displacements computed using our implemented model and the NASTRAN model. It is observed from the table that the accuracy of the solution increases with changing the type of element and the displacement computed using B3 element is pretty much close to the NASTRAN model. Since the B4 element does not work well with the L4 polynomial the maximum displacement obtained is same as that of B4 element.
+\newpage
+\begin{table}[h!]
+  \begin{center}
+     \begin{tabular}{c c}
+      \hline\\
+      \textbf{Element type} & \textbf{$u_{y}*10^{7}\;[m]$} \\
+      \\
+      \hline
+      \\[-2pt]
+       NASTRAN sol. & 9.99 \\[5pt]
+       B2 & 6.74\\[5pt]
+       B3 & 9.31 \\[5pt]
+       B4 & 6.74 \\[5pt]
+
+      \hline
+     \end{tabular}
+    \caption{Displacement ($u_{y}$) computed  using type of elements. No of elements 40.}
+    \label{tab:table 8}
+  \end{center}
+\end{table}
+\subsection*{Elliptical Cross-section:}
+\indent\indent\indent\indent Refined 1D beam model can be extended to any beam structures of arbitrary cross-section with the help of expansion functions across the cross-section. In order to check the ubiquity of our model an elliptical cross-section has been chosen. Clamped boundary conditions are accounted for the analysis. The length of the beam is 4[m] and the major and minor axis are 0.8 and 0.4[m] respectively. A vertical force ($P_{u_{z}}$) of -100[N] is applied at the central point of the tip cross-section. The elliptical cross-section is modeled by fitting a maximum possible rectangle inside the ellipse and analysed using appropriate jacobian value. Since we have no reference solution for elliptical cross-section beam a NASTRAN model has been built for the comparison purposes. The table \ref{tab:table 9} below shows the comparison of maximum vertical displacement of the NASTRAN model and the model built using different type of elements(For 40 elements). It is observed from the table that the model behaves as same for square cross-section. The accuracy of the model is high with the B3 element and the maximum displacement of the B4 element is same as that of B2.
+\\
+\begin{table}[h!]
+  \begin{center}
+     \begin{tabular}{c c}
+      \hline\\
+      \textbf{Element type} & \textbf{$u_{z}*10^{7}\;[m]$} \\
+      \\
+      \hline
+      \\[-2pt]
+       NASTRAN sol. & -7.08 \\[5pt]
+       B2 & -5.84\\[5pt]
+       B3 & -8.01 \\[5pt]
+       B4 & -5.84 \\[5pt]
+
+      \hline
+     \end{tabular}
+    \caption{Displacement ($u_{z}$) computed  using type of elements. No of elements 40.}
+    \label{tab:table 9}
+  \end{center}
+\end{table}
+
+Figure \ref{fig:ell_uz} presents the Z displacement of the central point of all cross-sections computed using 40 B3 elements which shows the bending behaviour of the beam.
+\newpage
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=0.7\textwidth]{{18.png}}
+ \caption{Dislacement ($u_{z}$) computed using 40 B3 elements  }
+ \label{fig:ell_uz}
+\end{center}
+\end{figure}
+
+Y displacement of the tip cross-section helps us to visualize the tilt of the beam cross-section. The cross-section here is constructed with a 100*100 mesh grid of side length equal to the major axis and then excluding the grid points which are not in the ellipse with the help of the equation of the ellipse. The formula \ref{ellipse} shows the equation of the ellipse
+\\
+\begin{equation}
+\frac{x^{2}}{a^{2}} + \frac{y^{2}}{b^{2}} = 1
+\label{ellipse}
+\end{equation}
+
+where x and y are the coordinate points and a and b are the semi- major and semi-minor axis respectively. The table \ref{tab:table 10}  shows the comparison of peak Y displacement of the NASTRAN model and the our model computed using different type of elements. It is seen that the model behaves as same as that of square cross-section where B3 is more accurate and B2 and B4 are same.
+\\
+\begin{table}[h!]
+  \begin{center}
+     \begin{tabular}{c c}
+      \hline\\
+      \textbf{Element type} & \textbf{$u_{y}*10^{7}\;[m]$} \\
+      \\
+      \hline
+      \\[-2pt]
+       NASTRAN sol. & 1.05 \\[5pt]
+       B2 & 0.84\\[5pt]
+       B3 & 1.15 \\[5pt]
+       B4 & 0.84 \\[5pt]
+
+      \hline
+     \end{tabular}
+    \caption{Peak displacement ($u_{y}$) computed  using type of elements. No of elements 40.}
+    \label{tab:table 10}
+  \end{center}
+\end{table}
+
+
+Fig \ref{fig: Y_B2_ell}, \ref{fig: Y_B3_ell} and \ref{fig: Y_B4_ell} presents the y displacement of the end cross-section which gives a visualization of how the beam cross-section tilts when loaded with a vertical force of -100 [N].
+\\
+\\ 
+\\
+\begin{figure}[!htbp]
+  \centering
+  \begin{minipage}[b]{0.49\textwidth}
+    \includegraphics[width=\textwidth]{19.png}
+    \caption{B2 element along Y axis}
+    \label{fig: Y_B2_ell}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[b]{0.49\textwidth}
+    \includegraphics[width=\textwidth]{20.png}
+    \caption{B3 element along Y axis}
+    \label{fig: Y_B3_ell}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[b]{0.49\textwidth}
+    \includegraphics[width=\textwidth]{21.png}
+    \caption{B4 element along Y axis}
+    \label{fig: Y_B4_ell}
+  \end{minipage}
+\end{figure}
+
+The distribution of strains and stresses are obtained by computing strain values at all the points in a 50*50 meshgrid by interpolation of strains with the help of displacements and shape functions. Figure \ref{fig:strain_dis_ell} and \ref{fig:stress_dis_ell} shows the distribution of the strains ($\epsilon_{yy}$)  and  axial stresses ($\sigma_{yy}$)  at the cross-section close to the fixed end because this is the area of maximum strains and stresses.\\ 
+\\
+In order to check the accuracy of our model, the maximum stress obtained is compared with the NASTRAN model. The maximum stress range obtained from the NASTRAN model ranges from -0.059 [MPa] to 0.055 [Mpa] which is close to our model which has a stress range of -0.033 [MPa] to 0.033 [MPa].
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=0.7\textwidth]{{22.png}}
+ \caption{Distribution of axial strain at the fixed end cross-section ($\epsilon_{yy}$)}
+ \label{fig:strain_dis_ell}
+\end{center}
 \end{figure}
 
 
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=0.7\textwidth]{{23.png}}
+ \caption{Distribution of axial stress at the fixed end cross-section ($\sigma_{yy}$)}
+ \label{fig:stress_dis_ell}
+\end{center}
+\end{figure}
+
+
+Figure \ref{fig:nastran_ell}  given below presents an elliptical beam model built using NASTRAN. It shows the range of maximum axial stress ($\sigma_{yy}$) at the cross-secction close to the fixed end when subjected to a vertical load ($P_{u_{z}}$) of -100[N]. 
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=0.7\textwidth]{{24.png}}
+ \caption{NASTRAN model showing the distribution of axial stress ($\sigma_{yy}$) }
+ \label{fig:nastran_ell}
+\end{center}
+\end{figure}
 
 
 
