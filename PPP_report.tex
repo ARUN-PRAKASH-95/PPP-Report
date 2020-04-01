@@ -34,7 +34,7 @@
 \newpage
 \vspace*{50px}
 \section*{Introduction}
-\indent\indent\indent\indent Beam structures are widely used in many engineering applications such as aircraft wings, helicopter blades, concrete beams in constructions etc., Classical 1-D models for beams made of isotropic materials are based on Euler-Bernoulli beam and Timoshenko theories. They yield better results for slender beams than short beams. If the cross-section of a bar is considered rigid, the problem can be considered a 1D one. In other words, the value of the displacement on the axis is enough to describe the deformation. But the classical 1D beam models does not take into the account of the non-classical effects like transverse shear deformation, torsion etc.,
+\indent\indent\indent\indent Beam structures are widely used in many engineering applications such as aircraft wings, helicopter blades, concrete beams in constructions etc., Classical 1-D models for beams made of isotropic materials are based on Euler-Bernoulli beam and Timoshenko theories. They yield better results for slender beams than short beams. If the cross-section of a bar is considered rigid, the problem can be considered as 1D one. In other words, the value of the displacement on the axis is enough to describe the deformation. But the classical 1D beam models does not take into the account of the non-classical effects like transverse shear deformation, torsion etc.,
 \begin{figure}[htbp]
 \begin{center}
 \includegraphics[width=0.8\textwidth]{{1.png}}
@@ -42,19 +42,19 @@
  \label{fig:Refined 1D element}
 \end{center}
 \end{figure}\\
-\indent\indent In order to overcome this drawback, the displacement values, should not be considered constant over the cross-section. Rather the displacement field that was originally defined in a 1D domain now becomes a 3D field. This can be done using Refined 1D beam models based on Carrera Unified Formulation(CUF). Refined 1D models use polynomial expansions(like Taylor,Lagrange polynomials etc.,) to approximate the displacement values across the cross section of the beam.Therefore this theory requires two major steps for FEM implementation. 1.FE discretization on the axis of the beam element (1D) 2.Expansion across the cross section(2D) using polynomials which gives the displacement field. Refined theories are necessary to cope with unconventional
-cross-section geometries, short beams, orthotropic materials and non-homogenous sections. The figure \ref{fig:Refined 1D element} shows the axial approximation using 1D shape functions and cross-sectional approximation using polynomials
+In order to overcome this drawback, the displacement values, should not be considered constant over the cross-section. Rather the displacement field that was originally defined in a 1D domain now becomes a 3D field. This can be done using Refined 1D beam models based on Carrera Unified Formulation (CUF). Refined 1D models use polynomial expansions(like Taylor,Lagrange polynomials etc.,) to approximate the displacement values across the cross section of the beam.Therefore this theory requires two major steps for FEM implementation. 1. FE discretization on the axis of the beam element (1D) 2. Expansion across the cross section (2D) using polynomials which gives the displacement field (See \cite{carrera2014finite}). Refined theories are necessary to cope with unconventional
+cross-section geometries, short beams, orthotropic materials and non-homogenous sections. The figure (\ref{fig:Refined 1D element}) shows the axial approximation using 1D shape functions and cross-sectional approximation using polynomials
 
 \newpage
 \section*{Theory behind the Refined 1D Beam Model}
 \subsection*{1D Refined models with Lagrange Expansion class}
-\indent\indent\indent\indent In a displacement based approach different class of functions are used to describe the displacment field of cross section like harmonics,polynomials,exponentials etc., In this project Lagrange polynomial expansions is used to approximate the displacement field of the cross section. The Lagrange Expansion(LE) 1D models have the folowing main characters 
-\\
-1. LE model variables and BCs can be located above the physical surfaces of the structure\\ 
-2. The unknown variables of the problems are only displacements of the nodes. No rotation or higher order variables are used to describe the displacement field.\\
-3. Locally refined models can be easily built since Lagrange polynomial sets can be arbitrarily
-spread above the cross-section.\\
-\indent In this method the expansion functions(F$_\tau$) coincide with the Lagrange polynomials. Since Lagrange polynomials are usually given in normalized or natural coordinates Isoparametric formulation can be exploited. The simplest Lagrange polynomial is the four-point(L4) set which is shown in the figure \ref{fig:L4 element} and the polynomials are given in the equation(1) 
+\indent\indent\indent\indent In a displacement based approach different class of functions are used to describe the displacment field of cross section like harmonics,polynomials,exponentials etc., In this project Lagrange polynomial expansions is used to approximate the displacement field of the cross section. The Lagrange Expansion (LE) 1D models have the following main characters (See \cite{carrera2014finite}), 
+\begin{itemize}
+\item LE model variables and BCs can be located above the physical surfaces of the structure
+\item The unknown variables of the problems are only displacements of the nodes. No rotation or higher order variables are used to describe the displacement field
+\item Locally refined models can be easily built since Lagrange polynomial sets can be arbitrarily spread above the cross-section
+\end{itemize}
+\indent In this method the expansion functions (F$_\tau$) coincide with the Lagrange polynomials. Since Lagrange polynomials are usually given in normalized or natural coordinates Isoparametric formulation can be exploited. The simplest Lagrange polynomial is the four-point (L4) set which is shown in the figure (\ref{fig:L4 element}) and the polynomials are given (See \cite{carrera2014finite}), in the equation (1), 
 \begin{figure}[htbp]
 \begin{center}
 \includegraphics[width=0.8\textwidth]{{2.png}}
@@ -67,7 +67,7 @@ spread above the cross-section.\\
 F_\tau = \frac{1}{4}(1+\alpha\alpha_\tau)(1+\beta\beta_\tau), \tau = 1,2,3,4 
 \label{shapefunc} 
 \end{equation}
-where $\alpha$ and $\beta$ are the normalized coordinates and $\alpha_\tau$ and $\beta_\tau$ are the coordinates of the four nodes which is given in the table \ref{tab:table1}. In the same way triangular elements(L3) and  higher order elements like (L9) or L(16) can be created using their respective polynomials.
+where $\alpha$ and $\beta$ are the normalized coordinates and $\alpha_\tau$ and $\beta_\tau$ are the coordinates of the four nodes which is given in the table (\ref{tab:table1}). In the same way triangular elements (L3) and  higher order elements like (L9) or (L16) can be created using their respective polynomials.
 \begin{table}[h!]
   \begin{center}
      \begin{tabular}{c|r|r} 
@@ -85,18 +85,20 @@ where $\alpha$ and $\beta$ are the normalized coordinates and $\alpha_\tau$ and 
 
 \newpage
 \subsection*{Isoparametic Formulation}
-\indent\indent\indent\indent Isoparametric formulation can be 1D,2D or 3D. These formulation is used in Refined 1D beam models to deal with\\
-1. 1D Shape functions are used along the longitudinal axis(Y) of the beam\\
-2. 2D expansion functions are used to describe the displacment field of the beam cross-section(X,Z)\\
-The 2D isoparametic formulation is used to implement the LE models. The same 2D formulation is employed for the 2D FEs(Plate models)
+\indent\indent\indent\indent Isoparametric formulation can be 1D, 2D or 3D. These formulation is used in Refined 1D beam models to deal with
+\begin{itemize}
+\item 1D Shape functions are used along the longitudinal axis (Y) of the beam
+\item 2D expansion functions are used to describe the displacment field of the beam cross-section (X,Z)
+\end{itemize}
+The 2D isoparametic formulation is used to implement the LE models. The same 2D formulation is employed for the 2D FEs (Plate models)
 
 \subsection*{Stiffness matrix}
-\indent\indent\indent\indent In CUF the FE matrices(Stiffness and Mass matrix) are formulated in terms of Fundamental Nucleus(FN). The compact form of stiffness matrix is given by
+\indent\indent\indent\indent In CUF, the FE matrices (Stiffness and Mass matrix) are formulated in terms of Fundamental Nucleus (FN). The compact form of stiffness matrix (See \cite{carrera2013use}) is given by
 \begin{equation}
 \delta L_{int} = \delta \textbf{u}_{sj}^{T} \textbf{K}^{\tau s i j} \textbf{u}_{\tau i}
 \label{Internal}   
 \end{equation}
-where $\textbf{K}^{\tau s i j}$ is the stiffness matrix written in the form of Fundamental Nucleus(FN). The FN is a $3*3$ array independent of he order of the strucutural model. The Nine components of the FN are given by\\
+where $\textbf{K}^{\tau s i j}$ is the stiffness matrix written in the form of Fundamental Nucleus (FN). The FN is a $3*3$ array independent of he order of the strucutural model. The Nine components of the FN (See \cite{carrera2014finite}) are given by\\
 
 $$K_{xx}^{\tau s i j} = C_{22} \int_{A}^{} F_{\tau,x} F_{s,x} dx dz \int_{l}^{} N_{i} N_{j} dy + C_{66} \int_{A}^{} F_{\tau,z} F_{s,z} dx dz \int_{l}^{} N_{i} N_{j} dy + C_{44} \int_{A}^{} F_{\tau} F_{s} dx dz\\$$ $$\int_{l}^{} N_{i,y} N_{j,y} dy $$
 $$ K_{xy}^{\tau s i j} = C_{23} \int_{A}^{} F_{\tau} F_{s,x} dx dz \int_{l}^{} N_{i,y} N_{j} dy + C_{44} \int_{A}^{} F_{\tau,x} F_{s} dx dz \int_{l}^{} N_{i} N_{j,y} dy$$
@@ -111,9 +113,10 @@ $$ K_{yz}^{\tau s i j} = C_{13} \int_{A}^{} F_{\tau} F_{s,z} dx dz \int_{l}^{} N
 $$ K_{yy}^{\tau s i j} = C_{11} \int_{A}^{} F_{\tau,z} F_{s,z} dx dz \int_{l}^{} N_{i} N_{j} dy + C_{66} \int_{A}^{} F_{\tau,x} F_{s,x} dx dz \int_{l}^{} N_{i} N_{j} dy + C_{55} \int_{A}^{} F_{\tau} F_{s} dx dz\\$$ $$\int_{l}^{} N_{i,y} N_{j,y} dy $$
 
 \subsection*{Load Vector}
-\indent\indent\indent\indent The virtual variation of the external work due to load P is given by the equation below            
+\indent\indent\indent\indent The virtual variation of the external work due to load P is given by the equation (\ref{ext}) below (See \cite{carrera2011beam})           
 \begin{equation}
 \delta L_{ext} = P\delta u^{T}
+\label{ext}
 \end{equation}
 By introducing nodal displacments and shape function for the Refined beam model the above equation becomes 
 \begin{equation}
@@ -123,13 +126,13 @@ The above equation helps us to assemble the load vector  by detecting the displa
 \begin{equation}
 \delta L_{ext} = P_{u_{x}}\delta u_{x1} + x_{P} P_{u_{x}}\delta u_{x2} + z_{P} P_{u_{x}}\delta u_{x3}
 \end{equation}
-where $[x_{P}, z_{P}] $are the coordinates on the cross-section of the loading
+where $[x_{P}, z_{P}] $ are the coordinates on the cross-section of the loading
 application point.\\
 
 \section*{Numerical methods and Implementation}
-\indent\indent\indent\indent The computation of the FN requires the evaluation of surface integrals in the cartesian coordinates(X and Z)
+\indent\indent\indent\indent The computation of the FN requires the evaluation of surface integrals in the cartesian coordinates (X and Z) (See \cite{carrera2014finite})
 $$\int_{A}^{} F_{\tau,x} F_{s,x} dx dz $$ where the 2D integration domain(A) can be of arbitrary shape. If normalized coordinates are used ($\alpha$ and $\beta$)
-the integral can be computed above the fixed 2D domain instead of the actual geometry. For example if quadrilateral elements are used the integral becomes $$ \int_{A}^{} F_{\tau,x}(x,z) F_{s,x}(x,z)dxdz = \int_{-1}^{+1}\int_{-1}^{+1} F_{\tau,x}(\alpha,\beta) F_{s,x}(\alpha,\beta) |J(\alpha,\beta)| d\alpha  d\beta$$ where $|J|$ is the Jacobian of the transformation. The Jacobian can be obtained form the following relation $$ F_{\tau,\alpha} = F_{\tau,x}\;x_{\alpha} + F_{\tau,z}\; z_{\alpha}$$ $$F_{\tau,\beta} = F_{\tau,x}\;x_{\beta} + F_{\tau,z}\; z_{\beta}$$
+the integral can be computed above the fixed 2D domain instead of the actual geometry. For example if quadrilateral elements are used the integral becomes $$ \int_{A}^{} F_{\tau,x}(x,z) F_{s,x}(x,z)dxdz = \int_{-1}^{+1}\int_{-1}^{+1} F_{\tau,x}(\alpha,\beta) F_{s,x}(\alpha,\beta) |J(\alpha,\beta)| d\alpha  d\beta$$ where $|J|$ is the Jacobian of the transformation. The Jacobian can be obtained form the following relation (See \cite{carrera2014finite}) $$ F_{\tau,\alpha} = F_{\tau,x}\;x_{\alpha} + F_{\tau,z}\; z_{\alpha}$$ $$F_{\tau,\beta} = F_{\tau,x}\;x_{\beta} + F_{\tau,z}\; z_{\beta}$$
 It can be rewritten in the matrix form 
 $$
 \begin{Bmatrix}
@@ -151,10 +154,9 @@ $$
 Derivatives inside the Jacobian matrix takes the form 
 $$x_{\alpha} = F_{1 ,\alpha}\;x_{1} + F_{2 ,\alpha}\;x_{2} + F_{3 ,\alpha}\;x_{3} + F_{4 ,\alpha}\;x_{4}
 $$ $$z_{\beta} = F_{1 ,\beta}\;z_{1} + F_{2 ,\beta}\;z_{2} + F_{3 ,\beta}\;z_{3} + F_{4 ,\beta}\;z_{4}$$\\
-
 \subsection*{Gauss quadrature for numerical integration}
-\indent\indent\indent\indent The integrals in the FN components have analytical solution but in practice numerical integration is used. Gauss quadrature is extensively used in FEA for the numerical integration purposes. Gauss quadrature approximates the definite integral of a function by taking weighted sum of a function at specified points with in the domain of integration. For example the 1D integration in the FN nucleus is approximated by $$\int_{-1}^{1} N_{i} N_{j}|J|\;d\xi = \sum_{h}^{} w_{h}\; N_{i}(\xi_{h})\; N_{j}(\xi_{h})\;|J(\xi_{h})|$$ where $w_{h}$ is the integration weight and $\xi_{h}$ is the integration point. The 2D integration in the FN is approximated as shown below $$\int_{-1}^{1}\int_{-1}^{1} F_{\tau}F_{s} |J| d\alpha d\beta = \sum_{h,k}^{} w_{h}\;w_{k}\;  F_{\tau}(\alpha_{h},\beta_{k})F_{s}(\alpha_{h},\beta_{k}) |J(\alpha_{h},\beta_{k})|$$ where $w_{h}$,   $w_{k}$ are the integration weights and $\alpha_{h},\beta_{k}$ are the integration points.
-The number of gauss points required for certain integral is given by the relation $ k = 2n_{p} - 1$ where $k$ is the order of integration and $n_{p}$ is the number of gauss points. For example the gauss points and weights for 1D and 2D integration using 2 gauss points is given below 
+\indent\indent\indent\indent The integrals in the FN components have analytical solution but in practice numerical integration is used. Gauss quadrature is extensively used in FEA for the numerical integration purposes. Gauss quadrature approximates the definite integral of a function by taking weighted sum of a function at specified points with in the domain of integration. For example the 1D integration in the FN nucleus is approximated by $$\int_{-1}^{1} N_{i} N_{j}|J|\;d\xi = \sum_{h}^{} w_{h}\; N_{i}(\xi_{h})\; N_{j}(\xi_{h})\;|J(\xi_{h})|$$ where $w_{h}$ is the integration weight and $\xi_{h}$ is the integration point. The 2D integration in the FN is approximated as shown below (See \cite{carrera2014finite})$$\int_{-1}^{1}\int_{-1}^{1} F_{\tau}F_{s} |J| d\alpha d\beta = \sum_{h,k}^{} w_{h}\;w_{k}\;  F_{\tau}(\alpha_{h},\beta_{k})F_{s}(\alpha_{h},\beta_{k}) |J(\alpha_{h},\beta_{k})|$$ where $w_{h}$,   $w_{k}$ are the integration weights and $\alpha_{h},\beta_{k}$ are the integration points.
+The number of gauss points required for certain integral is given by the relation $ k = 2n_{p} - 1$ where $k$ is the order of integration and $n_{p}$ is the number of gauss points. For example the gauss points and weights for 1D and 2D integration using 2 gauss points is given the tables (\ref{tab:table2}) and (\ref{tab:table3}) (See \cite{carrera2014finite}) below 
 \begin{table}[h!]
   \begin{center}
      \begin{tabular}{c|c} 
@@ -185,36 +187,11 @@ The number of gauss points required for certain integral is given by the relatio
 
 \subsection*{Implementation}
 \subsubsection*{Stiffness matrix}
-\indent\indent In CUF, stiffness matrix is computed in terms of FN. The FN is a 3*3 matrix whose nine components are given in the equation. Four indices are used to assemble the stiffness matrix ($\tau$,s,i,j). $\tau$,s are related to the expansion functions $F_{\tau}$ and $F_{s}$ and the FN is computed by varying $\tau$ and s. The block computed by varying $\tau$ and s is called nodal stiffness matrix. Element stiffness matrix is then computed by assembling the nodal stiffness matrix by varying i and j. After that global stiffness matrix is obtained by assembling the element stiffness matrix of each element using the appropriate assignment matrix. The process of assembling global stiffness matrix is shown in the figure \ref{fig:graph} below
+\indent\indent In CUF, stiffness matrix is computed in terms of FN. The FN is a 3*3 matrix whose nine components are given in the equation. Four indices are used to assemble the stiffness matrix ($\tau$, s, i, j). $\tau$, s are related to the expansion functions $F_{\tau}$ and $F_{s}$ and the FN is computed by varying $\tau$ and s. The block computed by varying $\tau$ and s is called nodal stiffness matrix. Element stiffness matrix is then computed by assembling the nodal stiffness matrix by varying i and j. After that global stiffness matrix is obtained by assembling the element stiffness matrix of each element using the appropriate assignment matrix. The process of assembling global stiffness matrix is shown in the figures   (\ref{Nodal}), (\ref{Elemental}) and (\ref{Global})  below (See \cite{carrera2014finite}) 
 
-\begin{figure}[!htbp]
-  \centering
-  \begin{minipage}[b]{0.35\textwidth}
-    \includegraphics[width=\textwidth]{3.png}
-    \caption{Nodal stiffness}
-  \end{minipage}
-  \hfill
-  \begin{minipage}[b]{0.35\textwidth}
-    \includegraphics[width=\textwidth]{4.png}
-    \caption{Element stiffness}
-  \end{minipage}
-  \hfill
-  \begin{minipage}[b]{0.35\textwidth}
-    \includegraphics[width=\textwidth]{5.png}
-    \caption{Global stiffness}
-  \end{minipage}
-\end{figure}
-The graphical description of the process of assembling stiffness matrix is given in the figure below. 
-\begin{figure}[htbp]
-\begin{center}
-\includegraphics[width=0.7\textwidth]{{6.png}}
- \caption{Graphical description of the FN implementation}
- \label{fig:graph}
-\end{center}
-\end{figure}
-Since L4 Polynomials are used, instead of having single node as if in 1D FEM each node will have four nodal points(beacuse of the L4 expansion). Therefore a single B2(Linear) element has 8 nodes and each node has 3 degree of freedom(DOF). As a result of that each B2 element will have 24*24 element stiffness matrix(8*3). This gets more complex if B3(36*36 matrix) and B4(48*48 matrix) elements are used for the analysis. Therefore appropriate assignment matrix has to be computed for each case in order to assemble the element stiffness matrix to get global stiffness matrix.
+\indent\indent The graphical description (Pseudocode) of the process of assembling stiffness matrix is given in the figure (\ref{fig:graph}) below (See \cite{carrera2014finite}). Since L4 Polynomials are used, instead of having single node as if in 1D FEM each node will have four nodal points (beacuse of the L4 expansion). Therefore a single B2 (Linear) element has 8 nodes and each node has 3 degree of freedom (DOF). As a result of that each B2 element will have 24*24 element stiffness matrix (8*3). This gets more complex if B3 (36*36 matrix) and B4 (48*48 matrix) elements are used for the analysis. Therefore appropriate assignment matrix has to be computed for each case in order to assemble the element stiffness matrix to get global stiffness matrix.
 \subsubsection*{Load Vector}
-\indent\indent\indent The Load Vector for any type of loading can be derived from the equation (4). Let us consider a B2 element having a square cross section is loaded by a downward force P(Z-direction) at the central point of the tip cross section(Cantilever beam). The Load vector is computed by the PVD
+\indent\indent\indent The Load Vector for any type of loading can be derived from the equation (4). Let us consider a B2 element having a square cross section is loaded by a downward force P (Z-direction) at the central point of the tip cross section (Cantilever beam). The Load vector is computed by the PVD
 \begin{equation}
 \delta L_{ext} = F_{\tau}N_{i}P\delta u^{T}_{\tau i}
 \label{PVD}
@@ -223,14 +200,35 @@ The value of the shape function at the loading point is 1 and at the fixed end i
 $$
 \delta L_{ext} = P F_{1} u_{z_{11}} + P F_{2} u_{z_{12}} + P F_{3} u_{z_{13}} + P F_{4} u_{z_{14}}
 $$
-By substituting the value of the natural coordinates($\alpha,\beta$) of the loading position(0,0) in the Lagrange polynomials of the above equation we get
+By substituting the value of the natural coordinates ($\alpha,\beta$) of the loading position (0,0) in the Lagrange polynomials of the above equation we get
 $$
 \delta L_{ext} = \frac{P}{4} u_{z_{11}} + \frac{P}{4} u_{z_{12}} + \frac{P}{4} u_{z_{13}} + \frac{P}{4} u_{z_{14}} 
 $$
 According to the above equation, a load of magnitude $\frac{P}{4}$ has to be placed in the 3,6,9 and 12th postion of the nodal load vector. 
+\begin{figure}[!htbp]
+  \centering
+  \begin{minipage}[b]{0.35\textwidth}
+    \includegraphics[width=\textwidth]{3.png}
+    \caption{Nodal stiffness}
+    \label{Nodal}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[b]{0.35\textwidth}
+    \includegraphics[width=\textwidth]{4.png}
+    \caption{Element stiffness}
+    \label{Elemental}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[b]{0.35\textwidth}
+    \includegraphics[width=\textwidth]{5.png}
+    \caption{Global stiffness}
+    \label{Global}
+  \end{minipage}
+\end{figure}
+
 
 \subsubsection*{Postprocessing (Displacements,Stresses and Strains)}
-\indent\indent\indent From the displacement values obtained from the analysis strain and stress values at the point of interest can be obtained. In order to do that the dsiplacement values are expanded over all the points where post processing is needed. This expansion can be done with the help of shape functions. The shape functions $(N_{i}(y))$ along the beam axis and expansion functions $(F_{\tau})$ above the cross section. The equation for expansion is shown in the equation below
+\indent\indent\indent From the displacement values obtained from the analysis,  strain and stress values at the point of interest can be obtained. In order to do that the displacement values are expanded over all the points where post processing is needed. This expansion can be done with the help of shape functions. The shape functions $(N_{i}(y))$ along the beam axis and expansion functions $(F_{\tau})$ above the cross section. The equation for expansion is shown in the equation below (See \cite{carrera2014finite})
 
 \begin{equation}
 u_{x}(x_{p},y_{p},z_{p}) = N_{i}(y_{p}) F_{\tau}(x_{p},z_{p})u_{x_{\tau i}}
@@ -261,6 +259,14 @@ As the strain field is computed, stress components are obtained through the cons
 \{\sigma\} = [C]\;\{\epsilon\}
 \end{equation}
 
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=0.7\textwidth]{{6.png}}
+ \caption{Graphical description of the FN implementation}
+ \label{fig:graph}
+\end{center}
+\end{figure}
+
 \section*{Results and Discussion}
 \indent\indent\indent\indent Beams subjected to bending loads are analyzed here using Refined 1D beam models. Clamped boundary conditions are accounted for the analysis. The beams are considered to have conventional square cross section and unconventional elliptical cross section. An isotropic material of Young's modulus(E) 75 [Gpa] and a Poisson's ratio of 0.33 is used for both the cases.
 
@@ -268,22 +274,21 @@ As the strain field is computed, stress components are obtained through the cons
 \indent\indent\indent\indent Before analyzing the above mentioned cross sections, two fundamental test has been conducted in order to test the functionality of the code. The tests are stiffness matrix test and tension test.
 
 \subsubsection*{Stiffness matrix test}
-\indent\indent\indent\indent In order to check whether the stiffness matrix derived using the Fundamental Nucleus(FN) technique (a rather new approach) works well, one of the components of the stiffness matrix derived for particular case using analytical solution presented in the literature has been compared with the same component for the same case obtained using the implemented code. The test case is given as follows: A rectangular beam of length L is considered. A B2 element is used along the beam axis and an L4 element is adopted across the cross section. The analytical solution for the 15*3 component of the element stiffness matrix is given below
+\indent\indent\indent\indent In order to check whether the stiffness matrix derived using the Fundamental Nucleus (FN) technique (a rather new approach) works well, one of the components of the stiffness matrix derived for particular case using analytical solution presented in the literature has been compared with the same component for the same case obtained using the implemented code. The test case is given as follows: A rectangular beam of length L is considered. A B2 element is used along the beam axis and an L4 element is adopted across the cross section. The analytical solution for the (15*3) component of the element stiffness matrix is given below (See \cite{carrera2014finite})
 \begin{equation}
 k^{2122}_{xx} = \frac{1}{18} \frac{b L}{a} C_{22} + \frac{1}{18} \frac{a L}{b} C_{66} - \frac{4}{9} \frac{a b}{L} C_{44}
 \end{equation}
-For a square cross section beam of length L = 2m, cross section of a = b = 0.2m and elastic constants($C_{22},C_{44},C_{66}$) for the above given isotropic material the obtained value of the above component is $1.544*10^{10}$. The value of the same 15*3 component of the element stiffness matrix obtained using the implemented code is $1.522*10^{10}$. This proves that the implemented code complies well with the analytical solution.
+For a square cross section beam of length L = 2m, cross section of a = b = 0.2m and elastic constants ($C_{22},C_{44},C_{66}$) for the above given isotropic material the obtained value of the above component is $1.544*10^{10}$. The value of the same 15*3 component of the element stiffness matrix obtained using the implemented code is $1.522*10^{10}$. This proves that the implemented code complies well with the analytical solution.
 \subsubsection*{Tension test}
-\indent\indent\indent\indent Since refined 1D beam models are generalized models, tension test can be carried out by deriving appropriate load vector which applies the load in the positive y direction(along beam axis). And also the exact solution for calculating the deformation due to tensile load can be easily derived, it serves as a viable candidate to check whether the displacement obtained from the implemented code is correct or not. The deformation due to tensile load is given by 
+\indent\indent\indent\indent Since refined 1D beam models are generalized models, tension test can be carried out by deriving appropriate load vector which applies the load in the positive y direction (along beam axis). And also the exact solution for calculating the deformation due to tensile load can be easily derived, it serves as a viable candidate to check whether the displacement obtained from the implemented code is correct or not. The deformation due to tensile load is given by 
 \begin{equation}
 dL = \frac{P L}{E A}
 \label{exactdef}
 \end{equation}
-where P - load applied, L - length of the beam, A - area of cross section and E - Young's modulus. For a load of 50N and a beam of above given parameters the deformation due to the load P is found to be $3.3*10^{-8}m$. The Load vector for tension load(used in code) can be derived using the equation (\ref{PVD}) by applying the load in positive y direction. The deformation calculated by the implemented code(using 20 B2 elements) due to tensile of 50N is found to be $2.96*10^{-8}$. This proves that the deformation obtained using the implemented model is close enough to the exact solution.
+where P - load applied, L - length of the beam, A - area of cross section and E - Young's modulus. For a load of 50N and a beam of above given parameters the deformation due to the load P is found to be $3.3*10^{-8}m$. The Load vector for tension load (used in code) can be derived using the equation (\ref{PVD}) by applying the load in positive y direction. The deformation calculated by the implemented code(using 20 B2 elements) due to a tensile of 50N is found to be $2.96*10^{-8}$. This proves that the deformation obtained using the implemented model is close enough to the exact solution.
 \newpage
 \subsection*{Square cross-section beam:}
-\indent\indent\indent\indent A cantilever beam of square cross-section undergoing a vertical force, $P_{u_{z}}$, is considered for the analysis. A load ($P_{u_{z}}$) of -50[N] is applied at the central point of the tip cross-section in order to perform typical bending analysis. The sides of the section (a) are equal to 0.2 [m]. The span to height ratio $\frac{L}{h}$ is equal to 10. The mechanics of the beam is described in terms of the maximum vertical displacement($u_{z}$) computed at the central point of the tip cross-section and the maximum absolute value of axial strain and stress. A reference solution for the above given terms is given as follows\\
-\\
+\indent\indent\indent\indent A cantilever beam of square cross-section undergoing a vertical force, $P_{u_{z}}$, is considered for the analysis. A load ($P_{u_{z}}$) of -50[N] is applied at the central point of the tip cross-section in order to perform typical bending analysis. The sides of the section (a) are equal to 0.2[m]. The span to height ratio $\frac{L}{h}$ is equal to 10. The mechanics of the beam is described in terms of the maximum vertical displacement ($u_{z}$) computed at the central point of the tip cross-section and the maximum absolute value of axial strain and stress. A reference solution for the above given terms is given as follows (See \cite{carrera2010refined}),\\
 Maximum vertical displacement 
 \begin{equation}
 u_{z} = \frac{P_{u_{z}} L^{3}}{3 E I}
@@ -302,7 +307,7 @@ Absolute value of maximum stress
 \label{syy}
 \end{equation}
 \subsubsection*{Maximum vertical displacement ($u_{z}$):}
-Tables 4, 5 and 6 presents the maximum vertical displacement, $u_{z}$, computed using Linear (B2), Quadratic (B3) and Cubic (B4) elements respectively along the beam axis. L4 expansion is used across the cross-section for all the cases and a span to height ratio of 10 is used. The reference solution for maximum vertical displacement, $u_{z}$, obtained using the formula (\ref{u_z}) is $-1.333*10^{-5}\;[m]$. From the tables, it is evident that the accuracy of the displacement values increases with increase in number of elements along the beam axis. Because higher number of elements increases the flexibility of the structure. In case of linear elements, the model converges to a maximum displacement of only $-0.9*10^{-5}\;[m]$ as seen from the table (\ref{tab:table 4}).
+Tables (\ref{tab:table 4}), (\ref{tab:table 5}) and (\ref{tab:table 6}) presents the maximum vertical displacement, $u_{z}$, computed using Linear (B2), Quadratic (B3) and Cubic (B4) elements respectively along the beam axis. L4 expansion is used across the cross-section for all the cases and a span to height ratio of 10 is used. The reference solution for maximum vertical displacement, $u_{z}$, obtained using the formula (\ref{u_z}) is $-1.333*10^{-5}\;[m]$. From the tables, it is evident that the accuracy of the displacement values increases with increase in number of elements along the beam axis. Because higher number of elements increases the flexibility of the structure. In case of linear elements, the model converges to a maximum displacement of only $-0.9*10^{-5}\;[m]$ as seen from the table (\ref{tab:table 4}).
 \begin{table}[h!]
   \begin{center}
      \begin{tabular}{c c}
@@ -391,7 +396,7 @@ Fig (\ref{fig:Z_B3}) shows the Z displacement of the central point of all cross-
 \end{figure}
 \newpage
 \subsubsection*{Maximum axial strain and stress ($\epsilon_{yy}$, $\sigma_{yy}$):}
-\indent\indent\indent\indent  The main aim of the refined 1D beam model is to predict the 3D behaviour of the beam when subjected to loading. With the help of X, Y and Z displacements, strains and stresses at any point in the beam can be computed using the equations \ref{u,x}, \ref{u,y} and \ref{u,z}. Since vertical load is applied in the beam, X displacement becomes zero so it can be neglected. The maximum axial strain and stress given by the equations \ref{eyy} and \ref{syy} serves as a reference solution for comparing the stresses and strains computed by our model. Since maximum axial strains and stresses are present in the fixed end, it can be computed with the help of Y displacements of the section close to the fixed end. With the help of displacements, shape functions and equation \ref{u,y}, axial strain ($\epsilon_{yy}$) at any point in the cross-section can be computed. Fig \ref{fig:eyy}, presents the variation of axial strain above the cross-section at the fixed end computed using 40 B4 elements along the beam axis and a 50*50 meshgrid.
+\indent\indent\indent\indent  The main aim of the refined 1D beam model is to predict the 3D behaviour of the beam when subjected to loading. With the help of X, Y and Z displacements, strains and stresses at any point in the beam can be computed using the equations (\ref{u,x}), (\ref{u,y}) and (\ref{u,z}). Since vertical load is applied in the beam, X displacement becomes zero so it can be neglected. The maximum axial strain and stress given by the equations (\ref{eyy}) and (\ref{syy}) serves as a reference solution for comparing the stresses and strains computed by our model. Since maximum axial strains and stresses are present in the fixed end, it can be computed with the help of Y displacements of the section close to the fixed end. With the help of displacements, shape functions and equation (\ref{u,y}), axial strain ($\epsilon_{yy}$) at any point in the cross-section can be computed. Fig (\ref{fig:eyy}), presents the variation of axial strain above the cross-section at the fixed end computed using 40 B4 elements along the beam axis and a 50*50 meshgrid.
 \\
 \\
 \begin{figure}[htbp]
@@ -402,7 +407,7 @@ Fig (\ref{fig:Z_B3}) shows the Z displacement of the central point of all cross-
 \end{center}
 \end{figure}
 
-Table \ref{tab:table 7} presents the absolute value and the position of maximum axial strains and stresses computed at the fixed end (Y=0) using different type of elements. The position of maximum stresses and strains does not depend on x. It is observed from the table that maximum stress and strain computed using B2 and B3 elements agrees well with the reference soltion. But the values computed using B4 element does not matches well because of the fact that B4 element requires higher order expansion across the cross-section to increase its accuracy. Fig \ref{fig:eyy_y} and  \ref{fig:syy_y} presents the variation in the axial strain and stress versus z at x = y = 0.
+Table (\ref{tab:table 7}) presents the absolute value and the position of maximum axial strains and stresses computed at the fixed end (Y=0) using different type of elements. The position of maximum stresses and strains does not depend on x. It is observed from the table that maximum stress and strain computed using B2 and B3 elements agrees well with the reference soltion. But the values computed using B4 element does not matches well because of the fact that B4 element requires higher order expansion across the cross-section to increase its accuracy. Fig (\ref{fig:eyy_y}) and  (\ref{fig:syy_y}) presents the variation in the axial strain and stress versus z at x = y = 0.
 
 \newpage
 \begin{table}[h!]
@@ -427,7 +432,7 @@ Table \ref{tab:table 7} presents the absolute value and the position of maximum 
 
 
 
-From fig \ref{fig:eyy_y}, it is observed that B2 and B3 beam elements produces almost same strain values and they are close to the reference solution. But the values computed by B4 element is not close to the reference solution. The same can be observed for the fig \ref{fig:syy_y} which shows the axial stress vs y at x = y = 0.  
+From fig (\ref{fig:eyy_y}), it is observed that B2 and B3 beam elements produces almost same strain values and they are close to the reference solution. But the values computed by B4 element is not close to the reference solution. The same can be observed for the fig (\ref{fig:syy_y}) which shows the axial stress vs y at x = y = 0.  
 \\
 \\
 \begin{figure}[htbp]
@@ -438,7 +443,7 @@ From fig \ref{fig:eyy_y}, it is observed that B2 and B3 beam elements produces a
 \end{center}
 \end{figure}
 
-With the maximum stress and strain verified using the reference solution, the distribution of strains and stresses at any point in the beam can be found out using the displacement values obtained at the nodes and shape functions. Figure \ref{fig:strain_dis} and \ref{fig:stress_dis} shows the distribution of strains and stresses at the cross-section close to the fixed end.
+With the maximum stress and strain verified using the reference solution, the distribution of strains and stresses at any point in the beam can be found out using the displacement values obtained at the nodes and shape functions. Figure (\ref{fig:strain_dis}) and (\ref{fig:stress_dis}) shows the distribution of strains and stresses at the cross-section close to the fixed end.
 \newpage
 \begin{figure}[htbp]
 \begin{center}
@@ -467,7 +472,7 @@ This distribution of strains and stresses are obtained by computing strain value
 \end{center}
 \end{figure}
 
-In order to check whether the implemented model can be applied for practical applications, a NASTRAN model has been built for the comparison purpose. Fig \ref{fig:nastran} presents the NASTRAN model which shows the distribution of axial stress ($\sigma_{yy}$). It is observed from the figure that it shows a stress range of -0.0905 [MPa] to 0.0916 [MPa]. This close enough to our implemented model where the stress ranges from -0.1 [MPa] to 0.1 [MPa] as seen in the figure \ref{fig:stress_dis}.
+In order to check whether the implemented model can be applied for practical applications, a NASTRAN model has been built for the comparison purpose. Fig (\ref{fig:nastran}) presents the NASTRAN model which shows the distribution of axial stress ($\sigma_{yy}$). It is observed from the figure that it shows a stress range of -0.0905 [MPa] to 0.0916 [MPa]. This close enough to our implemented model where the stress ranges from -0.1 [MPa] to 0.1 [MPa] as seen in the figure \ref{fig:stress_dis}.
 \\
 \\
 \\
@@ -505,7 +510,7 @@ In order to check whether the implemented model can be applied for practical app
   \end{minipage}
 \end{figure}
 
-Figure \ref{fig: Y_B2}, \ref{fig: Y_B3} and \ref{fig: Y_B4} shows the tilt of end cross-section computed using 40 B2, B3 an B4 elements respectively. Table \ref{tab:table 8}  shows the comparison of peak Y displacements computed using our implemented model and the NASTRAN model. It is observed from the table that the accuracy of the solution increases with changing the type of element and the displacement computed using B3 element is pretty much close to the NASTRAN model. Since the B4 element does not work well with the L4 polynomial the maximum displacement obtained is same as that of B4 element.
+Figure (\ref{fig: Y_B2}), (\ref{fig: Y_B3}) and (\ref{fig: Y_B4}) shows the tilt of end cross-section computed using 40 B2, B3 an B4 elements respectively. Table \ref{tab:table 8}  shows the comparison of peak Y displacements computed using our implemented model and the NASTRAN model. It is observed from the table that the accuracy of the solution increases with changing the type of element and the displacement computed using B3 element is pretty much close to the NASTRAN model. Since the B4 element does not work well with the L4 polynomial the maximum displacement obtained is same as that of B4 element.
 \newpage
 \begin{table}[h!]
   \begin{center}
@@ -527,7 +532,7 @@ Figure \ref{fig: Y_B2}, \ref{fig: Y_B3} and \ref{fig: Y_B4} shows the tilt of en
   \end{center}
 \end{table}
 \subsection*{Elliptical Cross-section:}
-\indent\indent\indent\indent Refined 1D beam model can be extended to any beam structures of arbitrary cross-section with the help of expansion functions across the cross-section. In order to check the ubiquity of our model an elliptical cross-section has been chosen. Clamped boundary conditions are accounted for the analysis. The length of the beam is 4[m] and the major and minor axis are 0.8 and 0.4[m] respectively. A vertical force ($P_{u_{z}}$) of -100[N] is applied at the central point of the tip cross-section. The elliptical cross-section is modeled by fitting a maximum possible rectangle inside the ellipse and analysed using appropriate jacobian value. Since we have no reference solution for elliptical cross-section beam a NASTRAN model has been built for the comparison purposes. The table \ref{tab:table 9} below shows the comparison of maximum vertical displacement of the NASTRAN model and the model built using different type of elements(For 40 elements). It is observed from the table that the model behaves as same for square cross-section. The accuracy of the model is high with the B3 element and the maximum displacement of the B4 element is same as that of B2.
+\indent\indent\indent\indent Refined 1D beam model can be extended to any beam structures of arbitrary cross-section with the help of expansion functions across the cross-section. In order to check the ubiquity of our model an elliptical cross-section has been chosen. Clamped boundary conditions are accounted for the analysis. The length of the beam is 4[m] and the major and minor axis are 0.8 and 0.4[m] respectively. A vertical force ($P_{u_{z}}$) of -100[N] is applied at the central point of the tip cross-section. The elliptical cross-section is modeled by fitting a maximum possible rectangle inside the ellipse and analysed using appropriate jacobian value. Since we have no reference solution for elliptical cross-section beam a NASTRAN model has been built for the comparison purposes. The table (\ref{tab:table 9}) below shows the comparison of maximum vertical displacement of the NASTRAN model and the model built using different type of elements(For 40 elements). It is observed from the table that the model behaves as same for square cross-section. The accuracy of the model is high with the B3 element and the maximum displacement of the B4 element is same as that of B2.
 \\
 \begin{table}[h!]
   \begin{center}
@@ -549,7 +554,7 @@ Figure \ref{fig: Y_B2}, \ref{fig: Y_B3} and \ref{fig: Y_B4} shows the tilt of en
   \end{center}
 \end{table}
 
-Figure \ref{fig:ell_uz} presents the Z displacement of the central point of all cross-sections computed using 40 B3 elements which shows the bending behaviour of the beam.
+Figure (\ref{fig:ell_uz}) presents the Z displacement of the central point of all cross-sections computed using 40 B3 elements which shows the bending behaviour of the beam.
 \newpage
 \begin{figure}[H]
 \begin{center}
@@ -559,7 +564,7 @@ Figure \ref{fig:ell_uz} presents the Z displacement of the central point of all 
 \end{center}
 \end{figure}
 
-Y displacement of the tip cross-section helps us to visualize the tilt of the beam cross-section. The cross-section here is constructed with a 100*100 mesh grid of side length equal to the major axis and then excluding the grid points which are not in the ellipse with the help of the equation of the ellipse. The formula \ref{ellipse} shows the equation of the ellipse
+Y displacement of the tip cross-section helps us to visualize the tilt of the beam cross-section. The cross-section here is constructed with a 100*100 mesh grid of side length equal to the major axis and then excluding the grid points which are not in the ellipse with the help of the equation of the ellipse. The formula (\ref{ellipse}) shows the equation of the ellipse
 \\
 \begin{equation}
 \frac{x^{2}}{a^{2}} + \frac{y^{2}}{b^{2}} = 1
@@ -589,7 +594,7 @@ where x and y are the coordinate points and a and b are the semi- major and semi
 \end{table}
 
 
-Fig \ref{fig: Y_B2_ell}, \ref{fig: Y_B3_ell} and \ref{fig: Y_B4_ell} presents the y displacement of the end cross-section which gives a visualization of how the beam cross-section tilts when loaded with a vertical force of -100 [N].
+Fig (\ref{fig: Y_B2_ell}), (\ref{fig: Y_B3_ell}) and (\ref{fig: Y_B4_ell}) presents the y displacement of the end cross-section which gives a visualization of how the beam cross-section tilts when loaded with a vertical force of -100 [N].
 \\
 \\ 
 \\
@@ -614,9 +619,9 @@ Fig \ref{fig: Y_B2_ell}, \ref{fig: Y_B3_ell} and \ref{fig: Y_B4_ell} presents th
   \end{minipage}
 \end{figure}
 
-The distribution of strains and stresses are obtained by computing strain values at all the points in a 50*50 meshgrid by interpolation of strains with the help of displacements and shape functions. Figure \ref{fig:strain_dis_ell} and \ref{fig:stress_dis_ell} shows the distribution of the strains ($\epsilon_{yy}$)  and  axial stresses ($\sigma_{yy}$)  at the cross-section close to the fixed end because this is the area of maximum strains and stresses.\\ 
+The distribution of strains and stresses are obtained by computing strain values at all the points in a 50*50 meshgrid by interpolation of strains with the help of displacements and shape functions. Figure (\ref{fig:strain_dis_ell}) and (\ref{fig:stress_dis_ell}) shows the distribution of the strains ($\epsilon_{yy}$)  and  axial stresses ($\sigma_{yy}$)  at the cross-section close to the fixed end because this is the area of maximum strains and stresses.\\ 
 \\
-In order to check the accuracy of our model, the maximum stress obtained is compared with the NASTRAN model. The maximum stress range obtained from the NASTRAN model ranges from -0.059 [MPa] to 0.055 [Mpa] which is close to our model which has a stress range of -0.033 [MPa] to 0.033 [MPa].
+In order to check the accuracy of our model, the maximum stress obtained is compared with the NASTRAN model. The maximum stress range obtained from the NASTRAN model ranges from -0.0059 [MPa] to 0.0055 [Mpa] which is close to our model which has a stress range of -0.0033 [MPa] to 0.0033 [MPa].
 
 \begin{figure}[H]
 \begin{center}
@@ -636,7 +641,7 @@ In order to check the accuracy of our model, the maximum stress obtained is comp
 \end{figure}
 
 
-Figure \ref{fig:nastran_ell}  given below presents an elliptical beam model built using NASTRAN. It shows the range of maximum axial stress ($\sigma_{yy}$) at the cross-secction close to the fixed end when subjected to a vertical load ($P_{u_{z}}$) of -100[N]. 
+Figure (\ref{fig:nastran_ell})  given below presents an elliptical beam model built using NASTRAN. It shows the range of maximum axial stress ($\sigma_{yy}$) at the cross-secction close to the fixed end when subjected to a vertical load ($P_{u_{z}}$) of -100[N]. 
 
 \begin{figure}[H]
 \begin{center}
@@ -647,6 +652,24 @@ Figure \ref{fig:nastran_ell}  given below presents an elliptical beam model buil
 \end{figure}
 
 
+
+\section*{Conclusion:}
+\indent\indent\indent\indent In the present work, finite element models with three different type of beam elements has been compared in the static analysis of beam structures using refined 1D beam models. Lagrange (L4) polynomials are chosen for the expansion across the cross-section. A square and an elliptical cross-section has been chosen for analysis and the results are compared with the reference solution from the literature and NASTRAN solution.  The results show that
+
+\begin{itemize}
+\item The Refined 1D beam models are able to provide quasi-3D solution of the displacements and stress fields, which makes the model very impressive with respect to the classical beam models (like Euler-Bernoulli) which is not able to provide the stress fields
+
+\item The unknown variables are only displacements, no rotation or higher order variables are required to describe the displacement or stress fields
+
+\item The Degrees of freedom (DOF) required for the analysis is far less compared to the DOF required for the beam models built using solid elements. For example the analysis of square cross-section beam using solid elements (NASTRAN) requires 25,857 DOFs but with refined beam elements (For 40 B3 elements and L4 expansion) it requires only 972 DOFs
+
+\end{itemize}
+In short, the models appear to be very impressive for the analysis of beam structures. These models provide considerable amount of accuracy when compared with the commercial softwares but with a lower computational cost. Application to higher order deformation like torsion as well as complex structures like aircraft wings, rotor blades etc and dynamics could be the subject of future research.
+
+
+\newpage
+\bibliographystyle{plain}
+\bibliography{References.bib} 
 
 \end{document}
 
