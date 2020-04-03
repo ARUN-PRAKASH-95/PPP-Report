@@ -270,18 +270,18 @@ As the strain field is computed, stress components are obtained through the cons
 \section*{Results and Discussion}
 \indent\indent\indent\indent Beams subjected to bending loads are analyzed here using refined 1D beam models. Clamped boundary conditions are accounted for the analysis. The beams are considered to have a conventional square cross-section and an unconventional elliptical cross-section. An isotropic material of Young's modulus(E) 75 [GPa] and Poisson's ratio, 0.33, is used for both the cases.
 
-\subsection*{Inital Tests}
-\indent\indent\indent\indent Before analyzing the above-mentioned cross sections, two fundamental tests has been conducted in order to test the functionality of the code. The tests are stiffness matrix test and tension test.
+\subsection*{Verification}
+\indent\indent\indent\indent Before analyzing the above-mentioned cross sections, two fundamental tests has been conducted in order to verify the functionality of the code. The tests are stiffness matrix test and tension test.
 
-\subsubsection*{Stiffness matrix test}
+\subsubsection*{Stiffness matrix test (Test Case 1)}
 \indent\indent\indent\indent In order to check whether the stiffness matrix derived using the Fundamental Nucleus (FN) technique (a rather new approach) works well, one of the components of the stiffness matrix derived for a particular case using analytical solution presented in the literature has been compared with the same component for the same case obtained using the implemented code. The test case is given as follows: A rectangular beam of length L is considered. A B2 element is used along the beam axis and an L4 element is adopted across the cross-section. The analytical solution for the (15*3) component of the element stiffness matrix is given below (See \cite{carrera2014finite})
 \begin{equation}
 k^{2122}_{xx} = \frac{1}{18} \frac{b L}{a} C_{22} + \frac{1}{18} \frac{a L}{b} C_{66} - \frac{4}{9} \frac{a b}{L} C_{44}
 \end{equation}
 For a square cross-section beam of length L = 2m, cross section of a = b = 0.2m and elastic constants ($C_{22},C_{44},C_{66}$) for the above given isotropic material the obtained value of the above component is $1.544*10^{10}$. The value of the same 15*3 component of the element stiffness matrix obtained using the implemented code is $1.522*10^{10}$. This proves that the implemented code complies well with the analytical solution.
-\subsubsection*{Tension test}
+\subsubsection*{Tension test (Test Case 2)}
 \indent\indent\indent\indent Since refined 1D beam models are generalized models, tension test can be carried out by deriving appropriate load vector which applies the load in the positive y-direction (along beam axis). And also the exact solution for calculating the deformation due to tensile load can be easily derived, it serves as a viable candidate to check whether the displacement obtained from the implemented code is correct or not. The deformation due to tensile load is given by 
-\begin{equation}s
+\begin{equation}
 dL = \frac{P L}{E A}
 \label{exactdef}
 \end{equation}
@@ -306,6 +306,7 @@ Absolute value of maximum stress
 \sigma_{yy} = \frac{P_{u_{z}} L h}{2 I}
 \label{syy}
 \end{equation}
+
 \subsubsection*{Maximum vertical displacement ($u_{z}$):}
 Tables (\ref{tab:table 4}), (\ref{tab:table 5}) and (\ref{tab:table 6}) presents the maximum vertical displacement, $u_{z}$, computed using Linear (B2), Quadratic (B3) and Cubic (B4) elements respectively along the beam axis. L4 expansion is used across the cross-section for all the cases and a span to height ratio of 10 is used. The reference solution for maximum vertical displacement, $u_{z}$, obtained using the formula (\ref{u_z}) is $-1.333*10^{-5}\;[m]$. From the tables, it is evident that the accuracy of the displacement values increases with increase in the number of elements along the beam axis. Because higher number of elements increases the flexibility of the structure. In the case of linear elements, the model converges to a maximum displacement of only $-0.9*10^{-5}\;[m]$ as seen from the table (\ref{tab:table 4}).
 \begin{table}[h!]
@@ -670,6 +671,86 @@ In short, the models appear to be very impressive for the analysis of beam struc
 \newpage
 \bibliographystyle{plain}
 \bibliography{References.bib} 
+
+\newpage
+\section*{User manual}
+\indent\indent\indent\indent The following section deals with the instructions on how to execute the program. In the folder, the main program is present under the name "Refined\_beam.py". The program can be run by typing "python3 Refined\_beam.py" in the terminal. Upon running, the program will ask following inputs from the user
+
+\subsection*{1. Type of cross-section:}
+\indent\indent\indent\indent Our implemented model deals with two types of cross-section. 1. Square cross-section  \;2. Elliptical cross-section. The program will ask the user which type of cross-section to be analyzed. For Square cross-section type number (1) in the terminal and elliptical cross-section type number (2) in the terminal. An example of choosing Square cross-section is shown in figure (\ref{fig:tyc}) below 
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=1\textwidth, height=3cm]{{25.png}}
+ \caption{Type of cross-section to be analyzed}
+ \label{fig:tyc}
+\end{center}
+\end{figure}
+
+\subsection*{2. Type of beam element:}
+\indent\indent\indent\indent Upon entering the type of cross-section to be analyzed the program will ask for the type of beam element to be used along the beam axis. Three types of beam elements are exploited for the analysis. The input to be given for each type of beam element is shown in the table (\ref{tab:table 11}) below. 
+\begin{table}[h!]
+  \begin{center}
+     \begin{tabular}{c c}
+      \hline\\
+      \textbf{Element type} & \textbf{Input number} \\
+      \\
+      \hline
+      \\[-2pt]
+       
+       B2 & 2\\[5pt]
+       B3 & 3\\[5pt]
+       B4 & 4\\[5pt]
+
+      \hline
+     \end{tabular}
+    \caption{Type of beam element and its respective input number}
+    \label{tab:table 11}
+  \end{center}
+\end{table}
+An example of choosing Quadratic element (B3) is shown in figure (\ref{fig:tyb}) below
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=0.6\textwidth]{{26.png}}
+ \caption{Type of beam element employed}
+ \label{fig:tyb}
+\end{center}
+\end{figure}
+
+\subsection*{3. Number of beam elements}
+\indent\indent\indent\indent After entering the type of beam element, the program will the ask user for number of elements needed. An example of choosing 40 beam elements is shown in the figure below 
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=0.6\textwidth]{{27.png}}
+ \caption{Number of beam elements utilized}
+ \label{fig:tyb}
+\end{center}
+\end{figure}
+
+Upon giving the number of beam elements, the program will run for a while and it shows the progress bar of the main loops inside the program. The outputs are saved in the folder either in the form of a text file or matplot images. The type of output parameters and the name under which it gets saved is given in the table (\ref{tab:table 12}) below
+
+\begin{table}[h!]
+  \begin{center}
+     \begin{tabular}{l  l}
+      \hline\\
+      \textbf{Parameter} & \textbf{Filename} \\
+      \\
+      \hline
+      \\[-2pt]
+       
+       X, Y and Z displacement of all nodes               & B(*) Displacement.txt\\[5pt]
+       Z displacement of all cross-section (center)       & B(*) Z\_displacement.png\\[5pt]
+       Y displacement of the tip cross-section            & B(*) Y\_displacement.png\\[5pt]
+       Axial strain of the fixed cross-section ($\epsilon_{yy}$)            & Axial\_strain\_distribution.png\\[5pt]
+       Axial stress of the fixed cross-section ($\sigma_{yy}$)           & Axial\_stress\_distribution.png\\[5pt]      
+      
+      \hline
+     \end{tabular}
+    \caption{Type of parameters and the name of th output files}
+    \label{tab:table 12}
+  \end{center}
+\end{table}
+
+where (*) represents the type of beam element for which the analysis has been done (Refer to  table \ref{tab:table 11}). After the program has finished running the terminal will display the total amount of time taken for the program execution. For example, the square cross-section took roughly around 150 seconds and ellipse cross-section took approximately 250 seconds.
 
 \end{document}
 
